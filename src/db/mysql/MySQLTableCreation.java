@@ -32,38 +32,48 @@ public class MySQLTableCreation {
 			statement.executeUpdate(sql);
 
 			// Step 3 Create new tables
-			sql = "CREATE TABLE owners (" + "owner_id VARCHAR(255) NOT NULL," + "password VARCHAR(255) NOT NULL,"
-					+ "first_name VARCHAR(255)," + "last_name VARCHAR(255)," + "pet_type VARCHAR(255)," + "PRIMARY KEY (owner_id)" + ")";
+			sql = "CREATE TABLE owners (" 
+					+ "owner_id VARCHAR(255) NOT NULL," 
+					+ "password VARCHAR(255) NOT NULL,"
+					+ "first_name VARCHAR(255)," 
+					+ "last_name VARCHAR(255)," 
+					+ "pet_type VARCHAR(255)," 
+					+ "PRIMARY KEY (owner_id)" + ")";
 			statement.executeUpdate(sql);
 
-			sql = "CREATE TABLE sitters (" + "sitter_id VARCHAR(255) NOT NULL," + "password VARCHAR(255) NOT NULL,"
-					+ "first_name VARCHAR(255)," + "last_name VARCHAR(255)," + "zipcode INTEGER," + "sitter_availability BOOLEAN,"
+			sql = "CREATE TABLE sitters (" 
+					+ "sitter_id VARCHAR(255) NOT NULL," 
+					+ "password VARCHAR(255) NOT NULL,"
+					+ "first_name VARCHAR(255)," 
+					+ "last_name VARCHAR(255)," 
+					+ "zipcode INTEGER," 
+					+ "sitter_availability BOOLEAN,"
 					+ "PRIMARY KEY (sitter_id)" + ")";
 			statement.executeUpdate(sql);
 
-//			sql = "CREATE TABLE reviews ("
-//					+ "owner_id VARCHAR(255) NOT NULL,"
-//					+ "sitter_id VARCHAR(255) NOT NULL,"
-//					+ "review_id VARCHAR(255) NOT NULL,"
-//					+ "owner_review VARCHAR(255),"
-//					+ "sitter_review VARCHAR(255),"
-//					+ "PRIMARY KEY (owner_id, sitter_id, review_id)," 
-//					+ "FOREIGN KEY (owner_id) REFERENCES owners(owner_id),"
-//					+ "FOREIGN KEY (sitter_id) REFERENCES sitters(sitter_id),"
-//					+ ")";
-//			statement.executeUpdate(sql);
-//
-//			sql = "CREATE TABLE posts (" 
-//					+ "owner_id VARCHAR(255) NOT NULL," 
-//					+ "sitter_id VARCHAR(255) NOT NULL,"
-//					+ "post_id VARCHAR(255) NOT NULL,"
-//					+ "home_image_url VARCHAR(255),"
-//					+ "pet_image_url VARCHAR(255)"
-//					+ "PRIMARY KEY (owner_id, sitter_id, post_id)," 
-//					+ "FOREIGN KEY (owner_id) REFERENCES owners(owner_id),"
-//					+ "FOREIGN KEY (sitter_id) REFERENCES sitters(sitter_id),"
-//					+ ")";
-//			statement.executeUpdate(sql);
+			sql = "CREATE TABLE reviews ("
+					+ "owner_id VARCHAR(255) NOT NULL,"
+					+ "sitter_id VARCHAR(255) NOT NULL,"
+					+ "review_id VARCHAR(255) NOT NULL,"
+					+ "owner_review VARCHAR(255),"
+					+ "sitter_review VARCHAR(255),"
+					+ "PRIMARY KEY (review_id)," 
+					+ "FOREIGN KEY (owner_id) REFERENCES owners(owner_id),"
+					+ "FOREIGN KEY (sitter_id) REFERENCES sitters(sitter_id)"
+					+ ")";
+			statement.executeUpdate(sql);
+
+			sql = "CREATE TABLE posts (" 
+					+ "owner_id VARCHAR(255) NOT NULL," 
+					+ "sitter_id VARCHAR(255) NOT NULL,"
+					+ "post_id VARCHAR(255) NOT NULL,"
+					+ "home_image_url VARCHAR(255),"
+					+ "pet_image_url VARCHAR(255),"
+					+ "PRIMARY KEY (post_id)," 
+					+ "FOREIGN KEY (owner_id) REFERENCES owners(owner_id),"
+					+ "FOREIGN KEY (sitter_id) REFERENCES sitters(sitter_id)"
+					+ ")";
+			statement.executeUpdate(sql);
 
 			// Step 4: insert fake owner 1111/3229c1097c00d497a0fd282d586be050
 			sql = "INSERT INTO owners VALUES('1111', '3229c1097c00d497a0fd282d586be050', 'John',  'Smith', 'Cat')";
