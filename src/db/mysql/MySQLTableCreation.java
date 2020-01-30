@@ -57,7 +57,7 @@ public class MySQLTableCreation {
 					+ "review_id VARCHAR(255) NOT NULL,"
 					+ "owner_review VARCHAR(255),"
 					+ "sitter_review VARCHAR(255),"
-					+ "PRIMARY KEY (review_id)," 
+					+ "PRIMARY KEY (review_id, owner_id, sitter_id)," 
 					+ "FOREIGN KEY (owner_id) REFERENCES owners(owner_id),"
 					+ "FOREIGN KEY (sitter_id) REFERENCES sitters(sitter_id)"
 					+ ")";
@@ -69,7 +69,7 @@ public class MySQLTableCreation {
 					+ "post_id VARCHAR(255) NOT NULL,"
 					+ "home_image_url VARCHAR(255),"
 					+ "pet_image_url VARCHAR(255),"
-					+ "PRIMARY KEY (post_id)," 
+					+ "PRIMARY KEY (post_id, owner_id, sitter_id)," 
 					+ "FOREIGN KEY (owner_id) REFERENCES owners(owner_id),"
 					+ "FOREIGN KEY (sitter_id) REFERENCES sitters(sitter_id)"
 					+ ")";
