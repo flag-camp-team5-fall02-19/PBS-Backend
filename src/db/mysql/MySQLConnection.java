@@ -4,11 +4,14 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import db.DBConnection;
+import entity.Sitter;
+
 
 public class MySQLConnection implements DBConnection {
 	 private Connection conn;
@@ -118,6 +121,46 @@ public class MySQLConnection implements DBConnection {
 		}
 		return false;
 
+	}
+	
+	
+	@Override
+	public List<Sitter> searchSitters(int zipcode, String cityName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	public Set<String> viewSitterIds(String userId) {
+		if (conn == null) {
+			return new HashSet<>();
+		}
+		
+		Set<String> sitterIds = new HashSet<>();
+		
+		try {
+			String sql = "SELECT sitter_id FROM history WHERE zipcode = ?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, userId);
+			
+			ResultSet rs = stmt.executeQuery();
+			
+			while (rs.next()) {
+				String sitterId = rs.getString("sitter_id");
+				sitterIds.add(sitterId);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return sitterIds;
+	}
+
+
+	@Override
+	public Set<Sitter> viewSitters(String userId) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

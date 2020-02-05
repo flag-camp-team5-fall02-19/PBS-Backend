@@ -2,6 +2,10 @@ package db;
 import java.util.List;
 import java.util.Set;
 
+import entity.Sitter;
+
+
+
 
 public interface DBConnection {
 	/**
@@ -47,5 +51,32 @@ public interface DBConnection {
 	 * @return boolean
 	 */
 	public boolean verifySitterLogin(String userId, String password);
+	
+	/**
+	 * Search items near a geolocation and a term (optional).
+	 * 
+	 * @param zipcode
+	 * @param cityName
+
+	 *            (Nullable)
+	 * @return list of Sitters
+	 */
+	public List<Sitter> searchSitters(int zipcode, String cityName);
+	
+	/**
+	 * Get the sitter id for a user.
+	 * 
+	 * @param userId
+	 * @return sitterIds
+	 */
+	public Set<String> viewSitterIds(String userId);
+
+	/**
+	 * Get the related sitters for a user.
+	 * 
+	 * @param userId
+	 * @return sitters
+	 */
+	public Set<Sitter> viewSitters(String userId);
 
 }
