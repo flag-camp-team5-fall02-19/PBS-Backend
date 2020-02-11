@@ -2,6 +2,7 @@ package db;
 import java.util.List;
 import java.util.Set;
 
+import entity.Post;
 import entity.Sitter;
 
 
@@ -78,5 +79,9 @@ public interface DBConnection {
 	 * @return sitters
 	 */
 	public Set<Sitter> viewSitters(String userId);
+
+	public List<Sitter> searchByZipcode(String zipCode, Integer radius, String unit);
+
+	public Set<Post> GetImagesBySitterId(String sitterId);
 
 }

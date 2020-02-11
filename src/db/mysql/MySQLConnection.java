@@ -11,6 +11,10 @@ import java.util.Set;
 
 import db.DBConnection;
 import entity.Sitter;
+import entity.Post;
+import entity.Sitter.SitterBuilder;
+import entity.Post.PostBuilder;
+import external.ZipCodeClient;
 
 
 public class MySQLConnection implements DBConnection {
@@ -38,8 +42,64 @@ public class MySQLConnection implements DBConnection {
 	  		 }
 	  	 }
 	}
-	
-	
+
+	public List<Sitter> searchByZipcode(String zipCode, Integer radius, String unit) {
+		ZipCodeClient zipCodeClient = new ZipCodeClient();
+		List<Sitter> sitters = new ArrayList<>();
+		List<String> zipcodes = zipCodeClient.searchZipCodeByRadius(zipCode, radius, unit);
+		try {
+			String sql = "SELECT * FROM sitters WHERE zipcode = ?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			for (String zc : zipcodes) {
+				stmt.setString(1, zc);
+				ResultSet rs = stmt.executeQuery();
+				while (rs.next()) {
+					SitterBuilder builder = new SitterBuilder();
+					String sitterId = rs.getString("sitter_id");
+					builder.setSitterId(sitterId);
+					builder.setFirstName(rs.getString("first_name"));
+					builder.setLastName(rs.getString("last_name"));
+					builder.setTel(rs.getString("tel"));
+					builder.setEmail(rs.getString("email"));
+					builder.setZipcode(rs.getInt("zipcode"));
+					builder.setAddress(rs.getString("address"));
+					builder.setCity(rs.getString("city"));
+					builder.setReviewScore(rs.getDouble("reviewScore"));
+					builder.setImageUrl(GetImagesBySitterId(sitterId));
+					sitters.add(builder.build());
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return sitters;
+	}
+
+	public Set<Post> GetImagesBySitterId(String sitterId) {
+		if (conn == null) {
+			return null;
+		}
+		Set<Post> images = new HashSet<>();
+		try {
+			String sql = "SELECT * FROM sitter_posts WHERE sitter_id = ?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1,sitterId);
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				PostBuilder builder = new PostBuilder();
+				String url = rs.getString("url");
+				String caption = rs.getString("caption");
+				builder.setUrl(url);
+				builder.setCaption(caption);
+				images.add(builder.build());
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return images;
+	}
+
+
 	@Override
 	public String getOwnerFullname(String userId) {
 		if (conn == null) {
