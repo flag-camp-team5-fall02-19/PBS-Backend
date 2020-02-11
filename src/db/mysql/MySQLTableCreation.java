@@ -19,13 +19,25 @@ public class MySQLTableCreation {
 
 			// Step 2 Drop tables in case they exist.
 			Statement statement = conn.createStatement();
-			String sql = "DROP TABLE IF EXISTS owners";
+			String sql = "DROP TABLE IF EXISTS unavailable_slot";
 			statement.executeUpdate(sql);
 
-			sql = "DROP TABLE IF EXISTS posts";
+			sql = "DROP TABLE IF EXISTS sitter_posts";
+			statement.executeUpdate(sql);
+
+			sql = "DROP TABLE IF EXISTS owner_posts";
 			statement.executeUpdate(sql);
 
 			sql = "DROP TABLE IF EXISTS reviews";
+			statement.executeUpdate(sql);
+
+			sql = "DROP TABLE IF EXISTS orders";
+			statement.executeUpdate(sql);
+
+			sql = "DROP TABLE IF EXISTS requests";
+			statement.executeUpdate(sql);
+
+			sql = "DROP TABLE IF EXISTS owners";
 			statement.executeUpdate(sql);
 
 			sql = "DROP TABLE IF EXISTS sitters";
@@ -133,10 +145,10 @@ public class MySQLTableCreation {
 			statement.executeUpdate(sql);
 
 			// Step 4: insert fake owner 1111/3229c1097c00d497a0fd282d586be050
-			sql = "INSERT INTO owners VALUES('1111', '3229c1097c00d497a0fd282d586be050', 'John',  'Smith','1234567890','sun@laioffer.com','orange cat','The most lovely cat in the world','20')";
+			sql = "INSERT INTO owners VALUES('1111', '3229c1097c00d497a0fd282d586be050', 'John', 'Smith', '1234567890', 'sun@laioffer.com', 'orange cat', 'The most lovely cat in the world')";
 			statement.executeUpdate(sql);
 			// Step 4: insert fake sitter 3333/3229c1097c00d497a0fd282d586be050
-			sql = "INSERT INTO sitters VALUES('3333', '3229c1097c00d497a0fd282d586be050', 'Jack', 'Chen', 12345, 'New York','Fifth Avenue')";
+			sql = "INSERT INTO sitters VALUES('3333', '3229c1097c00d497a0fd282d586be050', 'Jack', 'Chen', '1234567890', 'jack@gmail.com', '99999', 'New York', 'Fifth Avenue', '99.9')";
 			statement.executeUpdate(sql);
 
 			conn.close();
