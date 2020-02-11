@@ -42,8 +42,7 @@ public class MySQLConnection implements DBConnection {
 	  		 }
 	  	 }
 	}
-
-    //Search by zipcode.
+	
 	public List<Sitter> searchByZipcode(String zipCode, Integer radius, String unit) {
 		ZipCodeClient zipCodeClient = new ZipCodeClient();
 		List<Sitter> sitters = new ArrayList<>();
