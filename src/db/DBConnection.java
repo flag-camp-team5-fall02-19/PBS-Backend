@@ -66,12 +66,13 @@ public interface DBConnection {
 	public List<Sitter> searchSitters(int zipcode, String cityName);
 	
 	/**
-	 * Get the sitter id for a user.
+	 * Get the sitter id for a user(pet owner).
 	 * 
-	 * @param userId
+	 * @param zipcode
+	 * @param radius
 	 * @return sitterIds
 	 */
-	public Set<String> viewSitterIds(String userId);
+	public Set<String> viewSitterIds(String zipcode, Integer radius);
 
 	/**
 	 * Get the related sitters for a user.

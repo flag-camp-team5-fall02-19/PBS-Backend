@@ -5,8 +5,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Sitter {
-	private String sitterId;
+public class Owner {
+	private String ownerId;
 	private String firstName;
 	private String lastName;
 	private String tel;
@@ -15,14 +15,14 @@ public class Sitter {
 	private String city;
 	private String address;
 	private Set<Post> imageUrl;
-	private Set<Review> reviews;
-	private Double price;
-	private Double reviewScore;
+	private Set<String> reviews;
+	private String petType;
+	private String petDescription;
 	
 	
-	private Sitter(SitterBuilder builder) {
+	private Owner(OwnerBuilder builder) {
 		// TODO Auto-generated constructor stub
-		this.sitterId = builder.sitterId;
+		this.ownerId = builder.ownerId;
 		this.firstName = builder.firstName;
 		this.lastName = builder.lastName;
 		this.tel = builder.tel;
@@ -32,13 +32,13 @@ public class Sitter {
 		this.address = builder.address;
 		this.imageUrl = builder.imageUrl;
 		this.reviews = builder.reviews;
-		this.price = builder.price;
-		this.reviewScore = builder.reviewScore;
+		this.petType = builder.petType;
+		this.petDescription = builder.petDescription;
 		
 
 	}
-	public String getSitterId() {
-		return sitterId;
+	public String getOwnerId() {
+		return ownerId;
 	}
 	public String getFirstName() {
 		return firstName;
@@ -65,21 +65,21 @@ public class Sitter {
 		return imageUrl; 
 	}
 //	public Boolean getAvailability() { return availability; }
-	public Set<Review> getReviews() {
+	public Set<String> getReviews() {
 		return reviews;
 	}
-	public double getPrice() {
-		return price;
+	public String getPetType() {
+		return petType;
 	}
-	public double getReviewScore() {
-		return reviewScore;
+	public String getPetDescription() {
+		return petDescription;
 	}
 	
 
 	public JSONObject toJSONObject() {
 		JSONObject obj = new JSONObject();
 		try {
-			obj.put("sitter_id", sitterId);
+			obj.put("owner_id", ownerId);
 			obj.put("first_name", firstName);
 			obj.put("last_name", lastName);
 			obj.put("tel", tel);
@@ -94,17 +94,17 @@ public class Sitter {
 			}
 			obj.put("images", posts);
 //			obj.put("sitter_availability", availability);
-			obj.put("reviews", reviews);
-			obj.put("price", price);
-			obj.put("review_score", reviewScore);
+			obj.put("reviews", new JSONArray(reviews));
+			obj.put("pet_type", petType);
+			obj.put("pet_description", petDescription);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
 		return obj;
 	}
 	
-	public static class SitterBuilder {
-		private String sitterId;
+	public static class OwnerBuilder {
+		private String ownerId;
 		private String firstName;
 		private String lastName;
 		private String tel;
@@ -113,50 +113,50 @@ public class Sitter {
 		private String city;
 		private String address;
 		private Set<Post> imageUrl;
-		private Set<Review> reviews;
-		private Double price;
-		private Double reviewScore;
+		private Set<String> reviews;
+		private String petType;
+		private String petDescription;
 		
 		
-		public SitterBuilder setSitterId(String sitterId) {
-			this.sitterId = sitterId;
+		public OwnerBuilder setOwnerId(String ownerId) {
+			this.ownerId = ownerId;
 			return this;
 		}
-		public SitterBuilder setFirstName(String firstName) {
+		public OwnerBuilder setFirstName(String firstName) {
 			this.firstName = firstName;
 			return this;
 		}
-		public SitterBuilder setLastName(String lastName) {
+		public OwnerBuilder setLastName(String lastName) {
 			this.lastName = lastName;
 			return this;
 		}
 
-		public SitterBuilder setTel(String tel) {
+		public OwnerBuilder setTel(String tel) {
 			this.tel = tel;
 			return this;
 		}
 
-		public SitterBuilder setEmail(String email) {
+		public OwnerBuilder setEmail(String email) {
 			this.email = email;
 			return this;
 		}
 
-		public SitterBuilder setZipcode(String zipcode) {
+		public OwnerBuilder setZipcode(String zipcode) {
 			this.zipcode = zipcode;
 			return this;
 		}
 
-		public SitterBuilder setAddress(String address) {
+		public OwnerBuilder setAddress(String address) {
 			this.address = address;
 			return this;
 		}
 
-		public SitterBuilder setCity(String city) {
+		public OwnerBuilder setCity(String city) {
 			this.city= city;
 			return this;
 		}
 
-		public SitterBuilder setImageUrl(Set<Post> imageUrl) {
+		public OwnerBuilder setImageUrl(Set<Post> imageUrl) {
 			this.imageUrl = imageUrl;
 			return this;
 		}
@@ -165,24 +165,24 @@ public class Sitter {
 //			this.availability = availability;
 //			return this;
 //		}
-		public SitterBuilder setReviews(Set<Review> reviews) {
+		public OwnerBuilder getReviews(Set<String> reviews) {
 			this.reviews = reviews;
 			return this;
 		}
 		
-		public SitterBuilder setPrice(Double price) {
-			this.price = price;
+		public OwnerBuilder setPrice(String petType) {
+			this.petType = petType;
 			return this;
 		}
 
-		public SitterBuilder setReviewScore(Double reviewScore) {
-			this.reviewScore = reviewScore;
+		public OwnerBuilder setReviewScore(String petDescription) {
+			this.petDescription = petDescription;
 			return this;
 		}
 
 
-		public Sitter build() {
-			return new Sitter(this);
+		public Owner build() {
+			return new Owner(this);
 		}
 	}
 	

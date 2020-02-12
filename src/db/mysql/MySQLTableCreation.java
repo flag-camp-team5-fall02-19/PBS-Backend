@@ -3,6 +3,7 @@ package db.mysql;
 import java.sql.DriverManager;
 import java.sql.Statement;
 import java.sql.Connection;
+import java.sql.Timestamp;
 
 public class MySQLTableCreation {
 	// Run this as Java application to reset db schema.
@@ -51,6 +52,9 @@ public class MySQLTableCreation {
 					+ "last_name VARCHAR(255),"
 					+ "tel VARCHAR(255),"
 					+ "email VARCHAR(255),"
+					+ "zipcode VARCHAR(255),"
+					+ "city VARCHAR(255),"
+					+ "address VARCHAR(255),"
 					+ "pet_type VARCHAR(255),"
 					+ "pet_description VARCHAR(255),"
 					+ "PRIMARY KEY (owner_id)" + ")";
@@ -63,7 +67,7 @@ public class MySQLTableCreation {
 					+ "last_name VARCHAR(255),"
 					+ "tel VARCHAR(255),"
 					+ "email VARCHAR(255),"
-					+ "zipcode INTEGER,"
+					+ "zipcode VARCHAR(255),"
 					+ "city VARCHAR(255),"
 					+ "address VARCHAR(255),"
 					+ "price FLOAT,"
@@ -146,16 +150,80 @@ public class MySQLTableCreation {
 			statement.executeUpdate(sql);
 
 			// Step 4: insert fake owner 1111/3229c1097c00d497a0fd282d586be050
-			sql = "INSERT INTO owners VALUES('1111', '3229c1097c00d497a0fd282d586be050', 'John', 'Smith', '1234567890', 'sun@laioffer.com', 'orange cat', 'The most lovely cat in the world')";
+			sql = "INSERT INTO owners VALUES('1111', '3229c1097c00d497a0fd282d586be050', 'John', 'Smith', '1234567890', 'sun@laioffer.com', '10001', 'New York', 'Fifth Avenue', 'orange cat', 'The most lovely cat in the world')";
+			statement.executeUpdate(sql);
+			// Step 4: insert fake owner 3333/3229c1097c00d497a0fd282d586be050
+			sql = "INSERT INTO owners VALUES('3333', '3229c1097c00d497a0fd282d586be050', 'Jack', 'Chen', '1234567890', 'jack@gmail.com', '10001', 'New York', 'Fifth Avenue', 'orange cat', 'The most lovely cat in the world')";
 			statement.executeUpdate(sql);
 			// Step 5: insert fake sitter 3333/3229c1097c00d497a0fd282d586be050
 			sql = "INSERT INTO sitters VALUES('3333', '3229c1097c00d497a0fd282d586be050', 'Jack', 'Chen', '1234567890', 'jack@gmail.com', '10001', 'New York', 'Fifth Avenue', '99.9', '4.9')";
 			statement.executeUpdate(sql);
-			// Step 6: insert fake sitter post
+			// Step 6: insert fake sitter 4444/3229c1097c00d497a0fd282d586be050
+			sql = "INSERT INTO sitters VALUES('4444', '3229c1097c00d497a0fd282d586be050', 'Alice', 'Jen', '1111111111', 'alice@gmail.com', '15229', 'New West', 'Fifth Avenue', '99.9', '4.9')";
+			statement.executeUpdate(sql);
+			// Step 7: insert fake sitter 5555/3229c1097c00d497a0fd282d586be050
+			sql = "INSERT INTO sitters VALUES('5555', '3229c1097c00d497a0fd282d586be050', 'Jensen', 'Wang', '2222222222', 'Jensen@gmail.com', '15139', 'New East', 'Fifth Avenue', '99.9', '4.9')";
+			statement.executeUpdate(sql);
+			// Step 8: insert fake sitter 6666/3229c1097c00d497a0fd282d586be050
+			sql = "INSERT INTO sitters VALUES('6666', '3229c1097c00d497a0fd282d586be050', 'Neal', 'Zeng', '3333333333', 'Neal@gmail.com', '15049', 'New South', 'Fifth Avenue', '99.9', '4.9')";
+			statement.executeUpdate(sql);
+			// Step 9: insert fake sitter 7777/3229c1097c00d497a0fd282d586be050
+			sql = "INSERT INTO sitters VALUES('7777', '3229c1097c00d497a0fd282d586be050', 'Jill', 'Valentine', '4444444444', 'Jill@gmail.com', '15127', 'New North', 'Fifth Avenue', '99.9', '4.9')";
+			statement.executeUpdate(sql);
+			// Step 10: insert fake sitter post
 			sql = "INSERT INTO sitter_posts VALUES('1', '3333', 'fakeurl', 'testcaption')";
 			statement.executeUpdate(sql);
-			// Step 7: insert fake sitter post 2
+			// Step 11: insert fake sitter post 2
 			sql = "INSERT INTO sitter_posts VALUES('2', '3333', 'fakeurl2', 'testcaption2')";
+			statement.executeUpdate(sql);
+			
+			// Step 12: insert fake request 4444/3229c1097c00d497a0fd282d586be050
+			sql = "INSERT INTO requests VALUES('1', '1111', '4444', TRUE, 'hello', NOW(), NOW())";
+			statement.executeUpdate(sql);
+									
+			// Step 12: insert fake request 4444/3229c1097c00d497a0fd282d586be050
+			sql = "INSERT INTO requests VALUES('2', '3333', '4444', FALSE, 'hi', NOW(), NOW())";
+			statement.executeUpdate(sql);
+									
+			// Step 12: insert fake request 5555/3229c1097c00d497a0fd282d586be050
+			sql = "INSERT INTO requests VALUES('3', '1111', '5555', TRUE, 'hey', NOW(), NOW())";
+			statement.executeUpdate(sql);
+									
+			// Step 12: insert fake request 5555/3229c1097c00d497a0fd282d586be050
+			sql = "INSERT INTO requests VALUES('4', '3333', '5555', FALSE, 'hi there', NOW(), NOW())";
+			statement.executeUpdate(sql);
+			
+			
+			// Step 12: insert fake review 4444/3229c1097c00d497a0fd282d586be050
+			sql = "INSERT INTO orders VALUES('1', '1111', '4444', '1', TRUE, NOW(), NOW())";
+			statement.executeUpdate(sql);
+						
+			// Step 12: insert fake review 4444/3229c1097c00d497a0fd282d586be050
+			sql = "INSERT INTO orders VALUES('2', '3333', '4444', '2', FALSE, NOW(), NOW())";
+			statement.executeUpdate(sql);
+						
+			// Step 12: insert fake review 5555/3229c1097c00d497a0fd282d586be050
+			sql = "INSERT INTO orders VALUES('3', '1111', '5555', '3', FALSE, NOW(), NOW())";
+			statement.executeUpdate(sql);
+						
+			// Step 12: insert fake review 5555/3229c1097c00d497a0fd282d586be050
+			sql = "INSERT INTO orders VALUES('4', '3333', '5555', '4', TRUE, NOW(), NOW())";
+			statement.executeUpdate(sql);
+
+			// Step 12: insert fake review 4444/3229c1097c00d497a0fd282d586be050
+			sql = "INSERT INTO reviews VALUES('1', '1', '1111', '4444', 3, 'good sitter', NOW())";
+			statement.executeUpdate(sql);
+						
+			// Step 13: insert fake owner 4444/3229c1097c00d497a0fd282d586be050
+			sql = "INSERT INTO reviews VALUES('2', '2', '3333', '4444', 4, 'great sitter', NOW())";
+			statement.executeUpdate(sql);
+			
+			// Step 12: insert fake review 5555/3229c1097c00d497a0fd282d586be050
+			sql = "INSERT INTO reviews VALUES('3', '3', '1111', '5555', 5, 'excellent sitter', NOW())";
+			statement.executeUpdate(sql);
+									
+			// Step 13: insert fake owner 5555/3229c1097c00d497a0fd282d586be050
+			sql = "INSERT INTO reviews VALUES('4', '4', '3333', '5555', 2, 'poor sitter', NOW())";
 			statement.executeUpdate(sql);
 
 			conn.close();
