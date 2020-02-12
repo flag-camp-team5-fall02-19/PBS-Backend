@@ -67,6 +67,7 @@ public class MySQLTableCreation {
 					+ "city VARCHAR(255),"
 					+ "address VARCHAR(255),"
 					+ "price FLOAT,"
+					+ "review_score FLOAT,"
 					+ "PRIMARY KEY (sitter_id)" + ")";
 			statement.executeUpdate(sql);
 
@@ -147,8 +148,14 @@ public class MySQLTableCreation {
 			// Step 4: insert fake owner 1111/3229c1097c00d497a0fd282d586be050
 			sql = "INSERT INTO owners VALUES('1111', '3229c1097c00d497a0fd282d586be050', 'John', 'Smith', '1234567890', 'sun@laioffer.com', 'orange cat', 'The most lovely cat in the world')";
 			statement.executeUpdate(sql);
-			// Step 4: insert fake sitter 3333/3229c1097c00d497a0fd282d586be050
-			sql = "INSERT INTO sitters VALUES('3333', '3229c1097c00d497a0fd282d586be050', 'Jack', 'Chen', '1234567890', 'jack@gmail.com', '99999', 'New York', 'Fifth Avenue', '99.9')";
+			// Step 5: insert fake sitter 3333/3229c1097c00d497a0fd282d586be050
+			sql = "INSERT INTO sitters VALUES('3333', '3229c1097c00d497a0fd282d586be050', 'Jack', 'Chen', '1234567890', 'jack@gmail.com', '10001', 'New York', 'Fifth Avenue', '99.9', '4.9')";
+			statement.executeUpdate(sql);
+			// Step 6: insert fake sitter post
+			sql = "INSERT INTO sitter_posts VALUES('1', '3333', 'fakeurl', 'testcaption')";
+			statement.executeUpdate(sql);
+			// Step 7: insert fake sitter post 2
+			sql = "INSERT INTO sitter_posts VALUES('2', '3333', 'fakeurl2', 'testcaption2')";
 			statement.executeUpdate(sql);
 
 			conn.close();
