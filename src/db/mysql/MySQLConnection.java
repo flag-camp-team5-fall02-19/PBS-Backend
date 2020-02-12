@@ -64,7 +64,8 @@ public class MySQLConnection implements DBConnection {
 					builder.setZipcode(rs.getInt("zipcode"));
 					builder.setAddress(rs.getString("address"));
 					builder.setCity(rs.getString("city"));
-					builder.setReviewScore(rs.getDouble("reviewScore"));
+					builder.setPrice(rs.getDouble("price"));
+					builder.setReviewScore(rs.getDouble("review_score"));
 					builder.setImageUrl(GetImagesBySitterId(sitterId));
 					sitters.add(builder.build());
 				}
@@ -72,6 +73,7 @@ public class MySQLConnection implements DBConnection {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		System.out.println(sitters.size());
 		return sitters;
 	}
 
