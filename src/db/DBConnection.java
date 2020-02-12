@@ -1,4 +1,5 @@
 package db;
+import java.sql.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -84,4 +85,5 @@ public interface DBConnection {
 
 	public Set<Post> GetImagesBySitterId(String sitterId);
 
+	public void setUnavailableTime(Date startDay, Date endDay, String ID);
 }

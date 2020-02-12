@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.sql.Date;
 
 import db.DBConnection;
 import entity.Sitter;
@@ -42,7 +43,12 @@ public class MySQLConnection implements DBConnection {
 	  		 }
 	  	 }
 	}
-	
+
+	public void setUnavailableTime(Date startDay, Date endDay, String ID) {
+	}
+
+
+
 	public List<Sitter> searchByZipcode(String zipCode, Integer radius, String unit) {
 		ZipCodeClient zipCodeClient = new ZipCodeClient();
 		List<Sitter> sitters = new ArrayList<>();
