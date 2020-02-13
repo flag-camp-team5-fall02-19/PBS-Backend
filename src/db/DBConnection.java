@@ -3,7 +3,11 @@ import java.sql.Date;
 import java.util.List;
 import java.util.Set;
 
+import entity.Order;
+import entity.Owner;
 import entity.Post;
+import entity.Request;
+import entity.Review;
 import entity.Sitter;
 
 
@@ -81,10 +85,66 @@ public interface DBConnection {
 	 * @return sitters
 	 */
 	public Set<Sitter> viewSitters(String userId);
-
+	
+	/**
+	 * Get the related owners for a user(sitter).
+	 * 
+	 * @param userId
+	 * @return owners
+	 */
+	public Set<Owner> viewOwners(String userId);
+	
+	/**
+	 * Get the related sitters for a user (owner) within given the given range of zipcode, radius and unit.
+	 * 
+	 * @param zipCode
+	 * @param radius
+	 * @param unit
+	 * @return sitters
+	 */
 	public List<Sitter> searchByZipcode(String zipCode, Integer radius, String unit);
-
+	
+	/**
+	 * Get the related sitters' images for a user.
+	 * 
+	 * @param sitterId
+	 * @return posts
+	 */
 	public Set<Post> GetImagesBySitterId(String sitterId);
+	
+	/**
+	 * Get the related sitters' reviews for a user.
+	 * 
+	 * @param sitterId
+	 * @return reviews
+	 */
+	public Set<Review> GetReviewsBySitterId(String sitterId);
+	
+	/**
+	 * Get the related owners' images for a user.(sitter)
+	 * 
+	 * @param ownerId
+	 * @return posts
+	 */
+	public Set<Post> GetImagesByOwnerId(String ownerId);
+	
+	
+	/**
+	 * Get the related owners' requests for a user.
+	 * 
+	 * @param ownerId
+	 * @return requests
+	 */
+	public Set<Request> GetRequestsByOwnerId(String ownerId);
+	
+	/**
+	 * Get the related orders for a user (sitter or owner).
+	 * 
+	 * @param userId
+	 * @param isOwner
+	 * @return orders
+	 */
+	public Set<Order> viewOrder(String userId, Boolean isOwner);
 
 	public void setUnavailableTime(Date startDay, Date endDay, String ID);
 }

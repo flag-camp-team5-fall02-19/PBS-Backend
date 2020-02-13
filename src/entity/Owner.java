@@ -15,7 +15,7 @@ public class Owner {
 	private String city;
 	private String address;
 	private Set<Post> imageUrl;
-	private Set<String> reviews;
+	private Set<Request> requests;
 	private String petType;
 	private String petDescription;
 	
@@ -31,7 +31,7 @@ public class Owner {
 		this.city = builder.city;
 		this.address = builder.address;
 		this.imageUrl = builder.imageUrl;
-		this.reviews = builder.reviews;
+		this.requests = builder.requests;
 		this.petType = builder.petType;
 		this.petDescription = builder.petDescription;
 		
@@ -65,8 +65,8 @@ public class Owner {
 		return imageUrl; 
 	}
 //	public Boolean getAvailability() { return availability; }
-	public Set<String> getReviews() {
-		return reviews;
+	public Set<Request> getRequests() {
+		return requests;
 	}
 	public String getPetType() {
 		return petType;
@@ -94,7 +94,7 @@ public class Owner {
 			}
 			obj.put("images", posts);
 //			obj.put("sitter_availability", availability);
-			obj.put("reviews", new JSONArray(reviews));
+			obj.put("reviews", new JSONArray(requests));
 			obj.put("pet_type", petType);
 			obj.put("pet_description", petDescription);
 		} catch (JSONException e) {
@@ -113,7 +113,7 @@ public class Owner {
 		private String city;
 		private String address;
 		private Set<Post> imageUrl;
-		private Set<String> reviews;
+		private Set<Request> requests;
 		private String petType;
 		private String petDescription;
 		
@@ -165,17 +165,17 @@ public class Owner {
 //			this.availability = availability;
 //			return this;
 //		}
-		public OwnerBuilder getReviews(Set<String> reviews) {
-			this.reviews = reviews;
+		public OwnerBuilder setRequests(Set<Request> requests) {
+			this.requests = requests;
 			return this;
 		}
 		
-		public OwnerBuilder setPrice(String petType) {
+		public OwnerBuilder setPetType(String petType) {
 			this.petType = petType;
 			return this;
 		}
-
-		public OwnerBuilder setReviewScore(String petDescription) {
+		
+		public OwnerBuilder setPetDescription(String petDescription) {
 			this.petDescription = petDescription;
 			return this;
 		}

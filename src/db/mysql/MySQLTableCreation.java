@@ -177,6 +177,19 @@ public class MySQLTableCreation {
 			sql = "INSERT INTO sitter_posts VALUES('2', '3333', 'fakeurl2', 'testcaption2')";
 			statement.executeUpdate(sql);
 			
+			// Step 10: insert fake owner post
+			sql = "INSERT INTO owner_posts VALUES('1', '1111', 'fakeurl', 'testcaption')";
+			statement.executeUpdate(sql);
+			// Step 11: insert fake owner post 2
+			sql = "INSERT INTO owner_posts VALUES('2', '1111', 'fakeurl2', 'testcaption2')";
+			statement.executeUpdate(sql);
+			// Step 11: insert fake owner post 3
+			sql = "INSERT INTO owner_posts VALUES('3', '3333', 'fakeurl3', 'testcaption3')";
+			statement.executeUpdate(sql);
+			// Step 11: insert fake owner post 4
+			sql = "INSERT INTO owner_posts VALUES('4', '3333', 'fakeurl4', 'testcaption4')";
+			statement.executeUpdate(sql);
+			
 			// Step 12: insert fake request 4444/3229c1097c00d497a0fd282d586be050
 			sql = "INSERT INTO requests VALUES('1', '1111', '4444', TRUE, 'hello', NOW(), NOW())";
 			statement.executeUpdate(sql);
