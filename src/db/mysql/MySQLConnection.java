@@ -54,8 +54,32 @@ public class MySQLConnection implements DBConnection {
 	  	 }
 	}
 
-	public void setUnavailableTime(Date startDay, Date endDay, String ID) {
-		//TODO
+	public String setUnavailableTime(Date startDay, Date endDay, String ID) {
+		if (conn == null) {
+			System.err.println("DB connection failed");
+			return "DB connection failed";
+		}
+		try {
+			String sql1 = "SELECT *  FROM unavailable_slot WHERE sitter_id IN" +
+					"(SELECT sitter_id FROM unavailable_slot WHERE" +
+					"   (start_time <= '$startDay' AND end_time >= '$startDay') OR" +
+					"   (start_time <= '$endDay' AND end_time >= '$endDay') OR" +
+					"   (start_time >= '$endDay' AND end_time <= '$endDay'))";
+			PreparedStatement check_ps = conn.prepareStatement(sql1);
+			ResultSet rs = check_ps.executeQuery();
+			if (rs.next()){
+				return "Conflict with current time!";
+			}
+			String sql2 = "INSERT IGNORE INTO unavailable_slot(sitter_id,start_time,end_time) VALUES (?,?,?)";
+			PreparedStatement ps = conn.prepareStatement(sql2);
+			ps.setString(1, ID);
+			ps.setString(2, startDay.toString());
+			ps.setString(3, endDay.toString());
+			ps.execute();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "successfully inserted!";
 	}
 
 

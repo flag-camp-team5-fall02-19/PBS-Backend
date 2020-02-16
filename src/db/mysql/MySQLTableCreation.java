@@ -140,12 +140,11 @@ public class MySQLTableCreation {
 			statement.executeUpdate(sql);
 
 			sql = "CREATE TABLE unavailable_slot ("
-					+ "slot_id VARCHAR(255) NOT NULL,"
-					+ "owner_id VARCHAR(255) NOT NULL,"
+					+ "sitter_id VARCHAR(255) NOT NULL,"
 					+ "start_time DATE ,"
 					+ "end_time DATE ,"
-					+ "PRIMARY KEY (slot_id, owner_id),"
-					+ "FOREIGN KEY (owner_id) REFERENCES owners(owner_id)"
+					+ "PRIMARY KEY (sitter_id,start_time,end_time),"
+					+ "FOREIGN KEY (sitter_id) REFERENCES sitters(sitter_id)"
 					+ ")";
 			statement.executeUpdate(sql);
 
@@ -237,6 +236,10 @@ public class MySQLTableCreation {
 									
 			// Step 28: insert fake owner 5555/3229c1097c00d497a0fd282d586be050
 			sql = "INSERT INTO reviews VALUES('4', '4', '3333', '5555', 2, 'poor sitter', NOW())";
+			statement.executeUpdate(sql);
+
+			// Step 29: insert fake owner_ 5555/3229c1097c00d497a0fd282d586be050
+			sql = "INSERT INTO unavailable_slot VALUES('5555', '2018-03-31','2018-08-31')";
 			statement.executeUpdate(sql);
 
 			conn.close();

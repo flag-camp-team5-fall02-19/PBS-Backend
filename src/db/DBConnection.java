@@ -146,5 +146,5 @@ public interface DBConnection {
 	 */
 	public Set<Order> viewOrder(String userId, Boolean isOwner);
 
-	public void setUnavailableTime(Date startDay, Date endDay, String ID);
+	public String setUnavailableTime(Date startDay, Date endDay, String ID);
 }

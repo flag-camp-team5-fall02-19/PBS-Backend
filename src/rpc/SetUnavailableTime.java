@@ -53,8 +53,8 @@ public class SetUnavailableTime extends HttpServlet {
         DBConnection connection = DBConnectionFactory.getConnection();
         JSONObject obj = new JSONObject();
         try {
-            connection.setUnavailableTime(startDay,endDay,ID);
-            obj.put("set_unavailableTime_status", "OK");
+           String msg = connection.setUnavailableTime(startDay,endDay,ID);
+            obj.put("set_unavailableTime_status", msg);
             RpcHelper.writeJsonObject(response, obj);
         } catch (Exception e) {
             e.printStackTrace();
