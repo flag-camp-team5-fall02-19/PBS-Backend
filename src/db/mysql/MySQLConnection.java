@@ -34,7 +34,6 @@ import javax.xml.transform.Result;
 public class MySQLConnection implements DBConnection {
     private Connection conn;
 
-<<<<<<< HEAD
 	public String setUnavailableTime(Date startDay, Date endDay, String ID) {
 		if (conn == null) {
 			System.err.println("DB connection failed");
@@ -62,18 +61,15 @@ public class MySQLConnection implements DBConnection {
 		}
 		return "successfully inserted!";
 	}
-=======
+
     public MySQLConnection() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver").getConstructor().newInstance();
             conn = DriverManager.getConnection(MySQLDBUtil.URL);
->>>>>>> f44a90d70bebbc22590589403d621f3959868408
-
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
 
     @Override
     public void close() {
@@ -85,11 +81,6 @@ public class MySQLConnection implements DBConnection {
             }
         }
     }
-
-    public void setUnavailableTime(Date startDay, Date endDay, String ID) {
-        //TODO
-    }
-
 
     public List<Sitter> searchByZipcode(String zipCode, Integer radius, String unit) {
         ZipCodeClient zipCodeClient = new ZipCodeClient();
