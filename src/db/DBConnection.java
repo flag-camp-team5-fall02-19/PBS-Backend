@@ -9,8 +9,7 @@ import entity.Post;
 import entity.Request;
 import entity.Review;
 import entity.Sitter;
-
-
+import org.json.JSONArray;
 
 
 public interface DBConnection {
@@ -103,6 +102,13 @@ public interface DBConnection {
 	 * @return sitters
 	 */
 	public List<Sitter> searchByZipcode(String zipCode, Integer radius, String unit);
+
+	/**
+	 * Get the related sitters in a given city.
+	 * @param cityName
+	 * @return
+	 */
+	public List<Sitter> searchByCityName(String cityName);
 	
 	/**
 	 * Get the related sitters' images for a user.
@@ -146,5 +152,9 @@ public interface DBConnection {
 	 */
 	public Set<Order> viewOrder(String userId, Boolean isOwner);
 
-	public void setUnavailableTime(Date startDay, Date endDay, String ID);
+	public String setUnavailableTime(Date startDay, Date endDay, String ID);
+
+    public Sitter getSitterInformation(String sitter_id);
+
+	public JSONArray getUnavailableTime(String sitter_id);
 }
