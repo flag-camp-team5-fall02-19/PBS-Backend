@@ -45,15 +45,15 @@ public class SetUnavailableTime extends HttpServlet {
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // TODO Auto-generated method stub
-        String sd= request.getParameter("startDay");
-        Date startDay=Date.valueOf(sd);
+        String sd = request.getParameter("startDay");
+        Date startDay = Date.valueOf(sd);
         String ed = request.getParameter("endDay");
-        Date endDay=Date.valueOf(ed);
+        Date endDay = Date.valueOf(ed);
         String ID = request.getParameter("sitter_id");
         DBConnection connection = DBConnectionFactory.getConnection();
         JSONObject obj = new JSONObject();
         try {
-           String msg = connection.setUnavailableTime(startDay,endDay,ID);
+            String msg = connection.setUnavailableTime(startDay, endDay, ID);
             obj.put("set_unavailableTime_status", msg);
             RpcHelper.writeJsonObject(response, obj);
         } catch (Exception e) {
