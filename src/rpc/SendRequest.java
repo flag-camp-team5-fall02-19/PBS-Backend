@@ -1,33 +1,29 @@
 package rpc;
 
-import java.io.IOException;
-import java.sql.Date;
-import java.io.PrintWriter;
-import java.util.List;
-import java.util.Set;
-
-import entity.Sitter;
+import db.DBConnection;
+import db.DBConnectionFactory;
+import org.json.JSONObject;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.sql.Date;
 
-import db.DBConnection;
-import db.DBConnectionFactory;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-@WebServlet("/setUnavailableTime")
-public class SetUnavailableTime extends HttpServlet {
+/**
+ * Servlet implementation class Logout
+ */
+@WebServlet("/sendRequest")
+public class SendRequest extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public SetUnavailableTime() {
+    public SendRequest() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -45,15 +41,17 @@ public class SetUnavailableTime extends HttpServlet {
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // TODO Auto-generated method stub
-        String sd = request.getParameter("startDay");
+        String userId = request.getParameter("owner_id");
+        String sitterId = request.getParameter("sitter_id");
+        String message = request.getParameter("message");
+        String sd = request.getParameter("start_day");
         Date startDay = Date.valueOf(sd);
-        String ed = request.getParameter("endDay");
+        String ed = request.getParameter("end_day");
         Date endDay = Date.valueOf(ed);
-        String ID = request.getParameter("sitter_id");
         DBConnection connection = DBConnectionFactory.getConnection();
         JSONObject obj = new JSONObject();
         try {
-            String msg = connection.setUnavailableTime(startDay, endDay, ID);
+            String msg = connection.sendRequest(userId, sitterId, message, startDay, endDay);
             obj.put("set_unavailableTime_status", msg);
             RpcHelper.writeJsonObject(response, obj);
         } catch (Exception e) {
@@ -61,5 +59,6 @@ public class SetUnavailableTime extends HttpServlet {
         } finally {
             connection.close();
         }
+
     }
 }
