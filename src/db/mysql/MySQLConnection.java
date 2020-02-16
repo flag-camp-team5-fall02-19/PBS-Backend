@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -34,34 +35,6 @@ import javax.xml.transform.Result;
 public class MySQLConnection implements DBConnection {
     private Connection conn;
 
-	public String setUnavailableTime(Date startDay, Date endDay, String ID) {
-		if (conn == null) {
-			System.err.println("DB connection failed");
-			return "DB connection failed";
-		}
-		try {
-			String sql1 = "SELECT *  FROM unavailable_slot WHERE sitter_id IN" +
-					"(SELECT sitter_id FROM unavailable_slot WHERE" +
-					"   (start_time <= '$startDay' AND end_time >= '$startDay') OR" +
-					"   (start_time <= '$endDay' AND end_time >= '$endDay') OR" +
-					"   (start_time >= '$endDay' AND end_time <= '$endDay'))";
-			PreparedStatement check_ps = conn.prepareStatement(sql1);
-			ResultSet rs = check_ps.executeQuery();
-			if (rs.next()){
-				return "Conflict with current time!";
-			}
-			String sql2 = "INSERT IGNORE INTO unavailable_slot(sitter_id,start_time,end_time) VALUES (?,?,?)";
-			PreparedStatement ps = conn.prepareStatement(sql2);
-			ps.setString(1, ID);
-			ps.setString(2, startDay.toString());
-			ps.setString(3, endDay.toString());
-			ps.execute();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return "successfully inserted!";
-	}
-
     public MySQLConnection() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver").getConstructor().newInstance();
@@ -69,6 +42,71 @@ public class MySQLConnection implements DBConnection {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public String setUnavailableTime(Date startDay, Date endDay, String ID) {
+        if (conn == null) {
+            System.err.println("DB connection failed");
+            return "DB connection failed";
+        }
+        try {
+            String sql1 = "SELECT *  FROM unavailable_slot WHERE " +
+                    "   (sitter_id = ?) AND ("+
+                    "   (start_time <= ? AND end_time >= ?) OR" +
+                    "   (start_time <= ? AND end_time >= ?) OR" +
+                    "   (start_time >= ? AND end_time <= ?))";
+            PreparedStatement check_ps = conn.prepareStatement(sql1);
+            check_ps.setString(1,ID);
+            check_ps.setString(2,startDay.toString());
+            check_ps.setString(3,startDay.toString());
+            check_ps.setString(4,endDay.toString());
+            check_ps.setString(5,endDay.toString());
+            check_ps.setString(6,startDay.toString());
+            check_ps.setString(7,endDay.toString());
+            ResultSet rs = check_ps.executeQuery();
+            if (rs.next()){
+                return "time conflict";
+            }
+            else{
+                String sql2 = "INSERT IGNORE INTO unavailable_slot(sitter_id,start_time,end_time) VALUES (?,?,?)";
+                PreparedStatement ps = conn.prepareStatement(sql2);
+                ps.setString(1, ID);
+                ps.setString(2, startDay.toString());
+                ps.setString(3, endDay.toString());
+                ps.execute();
+                return "successfully inserted!";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    @Override
+    public String sendRequest(String ownerId, String sitterId, String message, Date startDay, Date endDay) {
+	    if (conn == null) {
+            System.err.println("DB connection failed");
+            return "DB connection failed";
+        }
+	    try {
+            String sql = "INSERT IGNORE INTO requests(request_id,owner_id,sitter_id,status,message,start_day,end_day) VALUES (?,?,?,?,?,?,?)";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            long currentTime = Calendar.getInstance().getTimeInMillis();
+            String requestID = ownerId + "-"+ Long.valueOf(currentTime);
+            System.out.println(requestID);
+            ps.setString(1, requestID);
+            ps.setString(2, ownerId);
+            ps.setString(3, sitterId);
+            ps.setString(4, "false");
+            ps.setString(5, message);
+            ps.setString(6, startDay.toString());
+            ps.setString(7, endDay.toString());
+            ps.execute();
+            return "successfully sent the request!";
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
     @Override
