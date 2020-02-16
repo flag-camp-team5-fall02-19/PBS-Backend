@@ -103,6 +103,13 @@ public interface DBConnection {
 	 * @return sitters
 	 */
 	public List<Sitter> searchByZipcode(String zipCode, Integer radius, String unit);
+
+	/**
+	 * Get the related sitters in a given city.
+	 * @param cityName
+	 * @return
+	 */
+	public List<Sitter> searchByCityName(String cityName);
 	
 	/**
 	 * Get the related sitters' images for a user.

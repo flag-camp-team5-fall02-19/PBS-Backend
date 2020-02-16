@@ -39,28 +39,18 @@ public class Search extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-//		response.setContentType("application/json");
-//		PrintWriter writer = response.getWriter();
-//		JSONObject obj = new JSONObject();
-//
-//		if (request.getParameter("username") != null) {
-//			String username = request.getParameter("username");
-//
-//			try {
-//				obj.put("username", username);
-//			} catch (JSONException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//		}
-//		writer.print(obj);
 		String zipcode = request.getParameter("zipcode");
 		Integer radius = Integer.parseInt(request.getParameter("radius"));
 		String unit = request.getParameter("unit");
+		String cityname = request.getParameter("cityname");
 		DBConnection connection = DBConnectionFactory.getConnection();
 		try {
-			List<Sitter> sitters = connection.searchByZipcode(zipcode,radius,unit);
+			List<Sitter> sitters;
+			if (cityname != null) {
+				sitters = connection.searchByCityName(cityname);
+			} else {
+				sitters = connection.searchByZipcode(zipcode,radius,unit);
+			}
 			JSONArray array = new JSONArray();
 			for (Sitter sitter : sitters) {
 				JSONObject obj = sitter.toJSONObject();
