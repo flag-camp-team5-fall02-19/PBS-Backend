@@ -56,17 +56,32 @@ public class MySQLConnection implements DBConnection {
             check_ps.setString(7,endDay.toString());
 			ResultSet rs = check_ps.executeQuery();
 			if (rs.next()){
-				return "time conflict";
+				return "time conflict with other unavailable time";
 			}
-			else{
-                String sql2 = "INSERT IGNORE INTO unavailable_slot(sitter_id,start_time,end_time) VALUES (?,?,?)";
-                PreparedStatement ps = conn.prepareStatement(sql2);
-                ps.setString(1, ID);
-                ps.setString(2, startDay.toString());
-                ps.setString(3, endDay.toString());
-                ps.execute();
-			    return "successfully inserted!";
+            String sql3 = "SELECT *  FROM orders WHERE " +
+                    "   (sitter_id = ?) AND ("+
+                    "   (start_day <= ? AND end_day >= ?) OR" +
+                    "   (start_day <= ? AND end_day >= ?) OR" +
+                    "   (start_day >= ? AND end_day <= ?))";
+            PreparedStatement check_ps3 = conn.prepareStatement(sql3);
+            check_ps3.setString(1,ID);
+            check_ps3.setString(2,startDay.toString());
+            check_ps3.setString(3,startDay.toString());
+            check_ps3.setString(4,endDay.toString());
+            check_ps3.setString(5,endDay.toString());
+            check_ps3.setString(6,startDay.toString());
+            check_ps3.setString(7,endDay.toString());
+            ResultSet rs3 = check_ps3.executeQuery();
+            if (rs3.next()){
+                return "time conflict with orders";
             }
+            String sql2 = "INSERT IGNORE INTO unavailable_slot(sitter_id,start_time,end_time) VALUES (?,?,?)";
+            PreparedStatement ps = conn.prepareStatement(sql2);
+            ps.setString(1, ID);
+            ps.setString(2, startDay.toString());
+            ps.setString(3, endDay.toString());
+            ps.execute();
+            return "successfully inserted!";
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -641,7 +656,6 @@ public class MySQLConnection implements DBConnection {
         if (conn == null) {
             return null;
         }
-
         try {
             String sql = "SELECT * FROM sitters WHERE sitter_id = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
@@ -652,13 +666,6 @@ public class MySQLConnection implements DBConnection {
 
             while(rs.next()){
                 Sitter sitter = buildSitterFromResults(rs);
-                String sql2 = "SELECT * FROM reviews WHERE sitter_id = ?";
-                PreparedStatement stmt2 = conn.prepareStatement(sql2);
-                stmt2.setString(1, sitter_id);
-                ResultSet rs2 = stmt.executeQuery();
-                while(rs.next()){
-
-                }
                 return sitter;
             }
         } catch (SQLException e) {
@@ -668,9 +675,34 @@ public class MySQLConnection implements DBConnection {
     }
 
     public JSONArray getUnavailableTime(String sitter_id){
+        if (conn == null) {
+            return null;
+        }
         JSONArray res = new JSONArray();
+        try {
+            String sql = "SELECT * FROM unavailable_slot WHERE sitter_id = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, sitter_id);
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()){
+                JSONArray temp = new JSONArray();
+                temp.put(rs.getString("start_time"));
+                temp.put(rs.getString("end_time"));
+                res.put(temp);
+            }
+            String sql2 = "SELECT * FROM orders WHERE sitter_id = ?";
+            PreparedStatement stmt2 = conn.prepareStatement(sql2);
+            stmt2.setString(1, sitter_id);
+            ResultSet rs2 = stmt2.executeQuery();
+            while(rs2.next()){
+                JSONArray temp = new JSONArray();
+                temp.put(rs2.getString("start_day"));
+                temp.put(rs2.getString("end_day"));
+                res.put(temp);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return res;
     }
-
-
 }

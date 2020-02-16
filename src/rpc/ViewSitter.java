@@ -44,8 +44,8 @@ public class ViewSitter extends HttpServlet {
         try {
             Sitter sitter = connection.getSitterInformation(sitter_id);
             JSONObject obj = sitter.toJSONObject();
-//            JSONArray unavailableTime = connection.getUnavailableTime(sitter_id);
-//            obj.put("unavailableTime",unavailableTime);
+            JSONArray unavailableTime = connection.getUnavailableTime(sitter_id);
+            obj.put("unavailableTime",unavailableTime);
             RpcHelper.writeJsonObject(response, obj);
         } catch (Exception e) {
             e.printStackTrace();
