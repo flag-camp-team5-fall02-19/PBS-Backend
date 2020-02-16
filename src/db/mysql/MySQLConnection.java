@@ -27,6 +27,7 @@ import entity.Post.PostBuilder;
 import entity.Review;
 import entity.Review.ReviewBuilder;
 import external.ZipCodeClient;
+import org.json.JSONArray;
 
 import javax.xml.transform.Result;
 
@@ -34,41 +35,48 @@ import javax.xml.transform.Result;
 public class MySQLConnection implements DBConnection {
     private Connection conn;
 
-<<<<<<< HEAD
-	public String setUnavailableTime(Date startDay, Date endDay, String ID) {
+    public String setUnavailableTime(Date startDay, Date endDay, String ID) {
 		if (conn == null) {
 			System.err.println("DB connection failed");
 			return "DB connection failed";
 		}
 		try {
-			String sql1 = "SELECT *  FROM unavailable_slot WHERE sitter_id IN" +
-					"(SELECT sitter_id FROM unavailable_slot WHERE" +
-					"   (start_time <= '$startDay' AND end_time >= '$startDay') OR" +
-					"   (start_time <= '$endDay' AND end_time >= '$endDay') OR" +
-					"   (start_time >= '$endDay' AND end_time <= '$endDay'))";
+			String sql1 = "SELECT *  FROM unavailable_slot WHERE " +
+                    "   (sitter_id = ?) AND ("+
+					"   (start_time <= ? AND end_time >= ?) OR" +
+					"   (start_time <= ? AND end_time >= ?) OR" +
+					"   (start_time >= ? AND end_time <= ?))";
 			PreparedStatement check_ps = conn.prepareStatement(sql1);
+			check_ps.setString(1,ID);
+            check_ps.setString(2,startDay.toString());
+            check_ps.setString(3,startDay.toString());
+            check_ps.setString(4,endDay.toString());
+            check_ps.setString(5,endDay.toString());
+            check_ps.setString(6,startDay.toString());
+            check_ps.setString(7,endDay.toString());
 			ResultSet rs = check_ps.executeQuery();
 			if (rs.next()){
-				return "Conflict with current time!";
+				return "time conflict";
 			}
-			String sql2 = "INSERT IGNORE INTO unavailable_slot(sitter_id,start_time,end_time) VALUES (?,?,?)";
-			PreparedStatement ps = conn.prepareStatement(sql2);
-			ps.setString(1, ID);
-			ps.setString(2, startDay.toString());
-			ps.setString(3, endDay.toString());
-			ps.execute();
+			else{
+                String sql2 = "INSERT IGNORE INTO unavailable_slot(sitter_id,start_time,end_time) VALUES (?,?,?)";
+                PreparedStatement ps = conn.prepareStatement(sql2);
+                ps.setString(1, ID);
+                ps.setString(2, startDay.toString());
+                ps.setString(3, endDay.toString());
+                ps.execute();
+			    return "successfully inserted!";
+            }
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "successfully inserted!";
+		return "";
 	}
-=======
+
     public MySQLConnection() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver").getConstructor().newInstance();
             conn = DriverManager.getConnection(MySQLDBUtil.URL);
->>>>>>> f44a90d70bebbc22590589403d621f3959868408
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -84,10 +92,6 @@ public class MySQLConnection implements DBConnection {
                 e.printStackTrace();
             }
         }
-    }
-
-    public void setUnavailableTime(Date startDay, Date endDay, String ID) {
-        //TODO
     }
 
 
@@ -632,5 +636,41 @@ public class MySQLConnection implements DBConnection {
         }
         return orders;
     }
+
+    public Sitter getSitterInformation(String sitter_id){
+        if (conn == null) {
+            return null;
+        }
+
+        try {
+            String sql = "SELECT * FROM sitters WHERE sitter_id = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+
+            stmt.setString(1, sitter_id);
+
+            ResultSet rs = stmt.executeQuery();
+
+            while(rs.next()){
+                Sitter sitter = buildSitterFromResults(rs);
+                String sql2 = "SELECT * FROM reviews WHERE sitter_id = ?";
+                PreparedStatement stmt2 = conn.prepareStatement(sql2);
+                stmt2.setString(1, sitter_id);
+                ResultSet rs2 = stmt.executeQuery();
+                while(rs.next()){
+
+                }
+                return sitter;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public JSONArray getUnavailableTime(String sitter_id){
+        JSONArray res = new JSONArray();
+        return res;
+    }
+
 
 }

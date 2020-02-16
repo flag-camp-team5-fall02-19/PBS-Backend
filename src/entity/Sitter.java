@@ -20,7 +20,7 @@ public class Sitter {
 	private Double reviewScore;
 	
 	
-	private Sitter(SitterBuilder builder) {
+	public Sitter(SitterBuilder builder) {
 		// TODO Auto-generated constructor stub
 		this.sitterId = builder.sitterId;
 		this.firstName = builder.firstName;

@@ -9,8 +9,7 @@ import entity.Post;
 import entity.Request;
 import entity.Review;
 import entity.Sitter;
-
-
+import org.json.JSONArray;
 
 
 public interface DBConnection {
@@ -154,4 +153,8 @@ public interface DBConnection {
 	public Set<Order> viewOrder(String userId, Boolean isOwner);
 
 	public String setUnavailableTime(Date startDay, Date endDay, String ID);
+
+    public Sitter getSitterInformation(String sitter_id);
+
+	public JSONArray getUnavailableTime(String sitter_id);
 }
