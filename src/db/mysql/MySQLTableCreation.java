@@ -83,6 +83,7 @@ public class MySQLTableCreation {
 					+ "message VARCHAR(255),"
 					+ "start_day DATE,"
 					+ "end_day DATE,"
+					+ "time SMALLDATETIME,"
 					+ "PRIMARY KEY (request_id),"
 					+ "FOREIGN KEY (owner_id) REFERENCES owners(owner_id),"
 					+ "FOREIGN KEY (sitter_id) REFERENCES sitters(sitter_id)"
