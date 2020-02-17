@@ -53,7 +53,7 @@ public class OwnerRegister extends HttpServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			connection.close();
+			connection.close();	// test commit
 		}
 	}
 }		
