@@ -157,4 +157,35 @@ public interface DBConnection {
     public Sitter getSitterInformation(String sitter_id);
 
 	public JSONArray getUnavailableTime(String sitter_id);
+	
+	/**
+	 * sitter register
+	 * 
+	 * @param sitter_id
+	 * @param password
+	 * @param firstname
+	 * @param lastname
+	 * @param zipCode
+	 * @param city
+	 * @param address
+	 * @param email
+	 * @return ifSuccess
+	 */
+	public boolean registerSitter (String sitter_id, String password, String firstname, String lastname, String zipCode, String city, String address, String email);
+	
+	/**
+	 * owner register
+	 * 
+	 * @param owner_id
+	 * @param password
+	 * @param firstname
+	 * @param lastname
+	 * @param email
+	 * @param phone
+	 * @param petType
+	 * @param petDes
+	 * @param priceRange
+	 * @return ifSuccess
+	 */
+	public boolean registerOwner (String owner_id, String password, String firstname, String lastname, String email, String phone, String petType, String petDes, String price);
 }
