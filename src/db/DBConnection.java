@@ -187,7 +187,7 @@ public interface DBConnection {
 	 * @param petType
 	 * @param petDes
 	 * @param priceRange
-	 * @return ifSuccess
+	 * @return ifSuccess.
 	 */
 	public boolean registerOwner (String owner_id, String password, String firstname, String lastname, String email, String phone, String petType, String petDes, String price);
 }
