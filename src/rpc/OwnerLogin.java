@@ -40,6 +40,7 @@ public class OwnerLogin extends HttpServlet {
 			if (session != null) {
 				String userId = session.getAttribute("user_id").toString();
 				obj.put("status", "OK").put("user_id", userId).put("name", connection.getOwnerFullname(userId));
+				
 			} else {
 				obj.put("status", "Invalid Session");
 				response.setStatus(403);
@@ -70,12 +71,15 @@ public class OwnerLogin extends HttpServlet {
 				session.setAttribute("user_id", userId);
 				session.setMaxInactiveInterval(600);
 				obj.put("status", "OK").put("user_id", userId).put("name", connection.getOwnerFullname(userId));
-;
+				System.out.println("the successful sessionId is: " + session.getId());
+				JSONObject token = new JSONObject();
+				token.put("token", session.getId());
+				RpcHelper.writeJsonObject(response, token);
 			} else {
 				obj.put("status", "User Doesn't Exist");
 				response.setStatus(401);
 			}
-			RpcHelper.writeJsonObject(response, obj);
+			//RpcHelper.writeJsonObject(response, obj);
 
 		} catch (Exception e) {
 			e.printStackTrace();

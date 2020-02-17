@@ -13,7 +13,9 @@ import org.json.JSONArray;
 
 
 public interface DBConnection {
-	/**
+    String sendRequest(String ownerId, String sitterId, String message, Date startDay, Date endDay);
+
+    /**
 	 * Close the connection.
 	 */
 	public void close();
