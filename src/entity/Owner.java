@@ -94,7 +94,12 @@ public class Owner {
 			}
 			obj.put("images", posts);
 //			obj.put("sitter_availability", availability);
-			obj.put("reviews", new JSONArray(requests));
+			JSONArray rqst = new JSONArray();
+			for (Request r : requests) {
+				JSONObject r_obj=r.toJSONObject();
+				rqst.put(r_obj);
+			}
+			obj.put("requests", rqst);
 			obj.put("pet_type", petType);
 			obj.put("pet_description", petDescription);
 		} catch (JSONException e) {
