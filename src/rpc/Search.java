@@ -40,7 +40,10 @@ public class Search extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String zipcode = request.getParameter("zipcode");
-		Integer radius = Integer.parseInt(request.getParameter("radius"));
+		Integer radius = 0;
+		if (request.getParameter("radius") != null) {
+			radius = Integer.parseInt(request.getParameter("radius"));
+		}
 		String unit = request.getParameter("unit");
 		String cityname = request.getParameter("cityname");
 		DBConnection connection = DBConnectionFactory.getConnection();
