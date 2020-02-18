@@ -59,7 +59,7 @@ public class Request {
         }
 
         public RequestBuilder setEndDay(String t) {
-            this.startDay = t;
+            this.endDay = t;
             return this;
         }
 
