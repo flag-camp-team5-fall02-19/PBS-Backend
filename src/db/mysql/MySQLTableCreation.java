@@ -83,7 +83,7 @@ public class MySQLTableCreation {
 					+ "message VARCHAR(255),"
 					+ "start_day DATE,"
 					+ "end_day DATE,"
-					+ "time DATE,"
+					+ "time DATETIME,"
 					+ "PRIMARY KEY (request_id),"
 					+ "FOREIGN KEY (owner_id) REFERENCES owners(owner_id),"
 					+ "FOREIGN KEY (sitter_id) REFERENCES sitters(sitter_id)"
@@ -191,19 +191,19 @@ public class MySQLTableCreation {
 			statement.executeUpdate(sql);
 			
 			// Step 17: insert fake request 4444/3229c1097c00d497a0fd282d586be050
-			sql = "INSERT INTO requests VALUES('1', '1111', '4444', TRUE, 'hello', NOW(), NOW(), NOW())";
+			sql = "INSERT INTO requests VALUES('1', '1111', '4444', TRUE, 'hello', NOW(), NOW(),CURRENT_TIMESTAMP)";
 			statement.executeUpdate(sql);
 									
 			// Step 18: insert fake request 4444/3229c1097c00d497a0fd282d586be050
-			sql = "INSERT INTO requests VALUES('2', '3333', '4444', FALSE, 'hi', NOW(), NOW(), NOW())";
+			sql = "INSERT INTO requests VALUES('2', '3333', '4444', FALSE, 'hi', NOW(), NOW(),CURRENT_TIMESTAMP)";
 			statement.executeUpdate(sql);
 									
 			// Step 19: insert fake request 5555/3229c1097c00d497a0fd282d586be050
-			sql = "INSERT INTO requests VALUES('3', '1111', '5555', TRUE, 'hey', NOW(), NOW(), NOW())";
+			sql = "INSERT INTO requests VALUES('3', '1111', '5555', TRUE, 'hey', NOW(), NOW(),CURRENT_TIMESTAMP)";
 			statement.executeUpdate(sql);
 									
 			// Step 20: insert fake request 5555/3229c1097c00d497a0fd282d586be050
-			sql = "INSERT INTO requests VALUES('4', '3333', '5555', FALSE, 'hi there', NOW(), NOW(), NOW())";
+			sql = "INSERT INTO requests VALUES('4', '3333', '5555', FALSE, 'hi there', NOW(), NOW(),CURRENT_TIMESTAMP)";
 			statement.executeUpdate(sql);
 			
 			
