@@ -35,13 +35,13 @@ public class OwnerRegister extends HttpServlet {
 			JSONObject input = RpcHelper.readJSONObject(request);
 			String owner_id = input.getString("owner_id");
 			String password = input.getString("password");
-			String firstname = input.getString("first_name");
-			String lastname = input.getString("last_name");
+			String firstname = input.getString("firstname");
+			String lastname = input.getString("lastname");
 			String email = input.getString("email");
 			String phone = input.getString("phone");
-			String petType = input.getString("pet_type");
-			String petDes = input.getString("pet_des");
-			String price = input.getString("pet_range");
+			String petType = input.getString("petType");
+			String petDes = input.getString("petDes");
+			String price = input.getString("price");
 			
 			JSONObject obj = new JSONObject();				// create JSON object
 			if (connection.registerUser(owner_id, password, firstname, lastname, email, phone, petType, petDes, price)) {

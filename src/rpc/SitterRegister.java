@@ -22,7 +22,7 @@ public class SitterRegister extends HttpServlet {
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public OwnerRegister() {
+    public SitterRegister() {
         super();
         // TODO Auto-generated constructor stub.
     }
@@ -35,9 +35,9 @@ public class SitterRegister extends HttpServlet {
 			JSONObject input = RpcHelper.readJSONObject(request);
 			String sitter_id = input.getString("sitter_id");
 			String password = input.getString("password");
-			String firstname = input.getString("first_name");
-			String lastname = input.getString("last_name");
-			String zipCode = input.getString("zip_code");
+			String firstname = input.getString("firstname");
+			String lastname = input.getString("lastname");
+			String zipCode = input.getString("zipCode");
 			String city = input.getString("city");
 			String address = input.getString("address");
 			String email = input.getString("email");
