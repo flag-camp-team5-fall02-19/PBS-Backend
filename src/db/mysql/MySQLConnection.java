@@ -487,7 +487,7 @@ public class MySQLConnection implements DBConnection {
 
         Set<Owner> owners = new HashSet<>();
         try {
-            String sql = "SELECT * FROM requests WHERE sitter_id = ?";
+            String sql = "SELECT * FROM requests WHERE sitter_id = ? AND status = TRUE";
             PreparedStatement stmt = conn.prepareStatement(sql);
 
             System.out.println("userId is: " + userId);
