@@ -9,21 +9,18 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.sql.Date;
 
 /**
- * Servlet implementation class Logout
+ * Servlet implementation class Comment
  */
-@WebServlet("/sendRequest")
-public class SendRequest extends HttpServlet {
-    private static final long serialVersionUID = 1L;
+@WebServlet("/review")
+public class Review extends HttpServlet {
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public SendRequest() {
+    public Review() {
         super();
     }
 
@@ -39,19 +36,19 @@ public class SendRequest extends HttpServlet {
      * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // TODO Auto-generated method stub
-        String userId = request.getParameter("owner_id");
+        String orderId = request.getParameter("order_id");
         String sitterId = request.getParameter("sitter_id");
-        String message = request.getParameter("message");
-        String sd = request.getParameter("start_day");
-        Date startDay = Date.valueOf(sd);
-        String ed = request.getParameter("end_day");
-        Date endDay = Date.valueOf(ed);
+        String ownerId = request.getParameter("owner_id");
+        Integer score = 0;
+        if (request.getParameter("score") != null) {
+            score = Integer.valueOf(request.getParameter("score"));
+        }
+        String comment = request.getParameter("comment");
         DBConnection connection = DBConnectionFactory.getConnection();
         JSONObject obj = new JSONObject();
         try {
-            String msg = connection.sendRequest(userId, sitterId, message, startDay, endDay);
-            obj.put("set_unavailableTime_status", msg);
+            String msg = connection.addReview(orderId, sitterId, ownerId, score, comment);
+            obj.put("make_comment_status", msg);
             RpcHelper.writeJsonObject(response, obj);
         } catch (Exception e) {
             e.printStackTrace();

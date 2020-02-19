@@ -229,13 +229,13 @@ public class MySQLTableCreation {
 			sql = "INSERT INTO orders VALUES('4', '3333', '5555', '4', TRUE, NOW(), NOW())";
 			statement.executeUpdate(sql);
 
-			// Step 25: insert fake review 4444/3229c1097c00d497a0fd282d586be050
-			sql = "INSERT INTO reviews VALUES('1', '1', '1111', '4444', 3, 'good sitter', NOW())";
-			statement.executeUpdate(sql);
+//			// Step 25: insert fake review 4444/3229c1097c00d497a0fd282d586be050
+//			sql = "INSERT INTO reviews VALUES('1', '1', '1111', '4444', 3, 'good sitter', NOW())";
+//			statement.executeUpdate(sql);
 						
-			// Step 26: insert fake owner 4444/3229c1097c00d497a0fd282d586be050
-			sql = "INSERT INTO reviews VALUES('2', '2', '3333', '4444', 4, 'great sitter', NOW())";
-			statement.executeUpdate(sql);
+//			// Step 26: insert fake owner 4444/3229c1097c00d497a0fd282d586be050
+//			sql = "INSERT INTO reviews VALUES('2', '2', '3333', '4444', 4, 'great sitter', NOW())";
+//			statement.executeUpdate(sql);
 			
 			// Step 27: insert fake review 5555/3229c1097c00d497a0fd282d586be050
 			sql = "INSERT INTO reviews VALUES('3', '3', '1111', '5555', 5, 'excellent sitter', NOW())";

@@ -154,10 +154,27 @@ public interface DBConnection {
 	 */
 	public Set<Order> viewOrder(String userId, Boolean isOwner);
 
+	/**
+	 *
+	 * @param startDay
+	 * @param endDay
+	 * @param ID
+	 * @return
+	 */
 	public String setUnavailableTime(Date startDay, Date endDay, String ID);
 
+	/**
+	 *
+	 * @param sitter_id
+	 * @return
+	 */
     public Sitter getSitterInformation(String sitter_id);
 
+	/**
+	 *
+	 * @param sitter_id
+	 * @return
+	 */
 	public JSONArray getUnavailableTime(String sitter_id);
 
 	String confirmRequest(String owner_id, String user_id, String request_id);
@@ -175,21 +192,43 @@ public interface DBConnection {
 	 * @param email
 	 * @return ifSuccess
 	 */
+<<<<<<< HEAD
 //	public boolean registerSitter (String sitter_id, String password, String firstname, String lastname, String zipCode, String city, String address, String email);
 	
+=======
+	public boolean registerSitter (String sitter_id, String password, String firstname, String lastname, String zipCode, String city, String address, String email);
+
+>>>>>>> cc14192aa7b8913efa32265123a5e21608db42fc
 	/**
-	 * owner register
-	 * 
-	 * @param owner_id
-	 * @param password
-	 * @param firstname
-	 * @param lastname
-	 * @param email
-	 * @param phone
-	 * @param petType
-	 * @param petDes
-	 * @param priceRange
-	 * @return ifSuccess.
+	 *
+	 * @param orderId
+	 * @param sitterId
+	 * @param ownerId
+	 * @param score
+	 * @param comment
+	 * @return
 	 */
+<<<<<<< HEAD
 //	public boolean registerOwner (String owner_id, String password, String firstname, String lastname, String email, String phone, String petType, String petDes, String price);
+=======
+	public String addReview(String orderId, String sitterId, String ownerId, Integer score, String comment);
+
+//	/**
+//	 * owner register
+//	 *
+//	 * @param owner_id
+//	 * @param password
+//	 * @param firstname
+//	 * @param lastname
+//	 * @param email
+//	 * @param phone
+//	 * @param petType
+//	 * @param petDes
+//	 * @param priceRange
+//	 * @return ifSuccess.
+//	 */
+//	public boolean registerOwner (String owner_id, String password, String firstname, String lastname, String email, String phone, String petType, String petDes, String price);
+//
+//	boolean sitterRegister(String sitter_id, String password, String firstname, String lastname);
+>>>>>>> cc14192aa7b8913efa32265123a5e21608db42fc
 }
