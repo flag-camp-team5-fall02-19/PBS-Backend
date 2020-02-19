@@ -230,7 +230,13 @@ public class MySQLTableCreation {
 			// Step 20: insert fake request 5555/3229c1097c00d497a0fd282d586be050
 			sql = "INSERT INTO requests VALUES('4', '3333', '5555', FALSE, 'hi there', NOW(), NOW(),CURRENT_TIMESTAMP)";
 			statement.executeUpdate(sql);
-			
+
+			//Test for confirm request. (Used by Chloe)
+//			sql = "INSERT INTO owners VALUES('1234', '3229c1097c00d497a0fd282d586be050', 'BLALA', 'Xiaomoxian', '1234567890', 'moxianbao@gmail.com', '10001', 'New York', 'wo de mo xian bao', 'orange cat', 'The most lovely cat in the world')";
+//			statement.executeUpdate(sql);
+//
+//			sql = "INSERT INTO requests VALUES('5', '1234', '5555', TRUE, 'test','2020-02-13','2020-02-19',CURRENT_TIMESTAMP)";
+//			statement.executeUpdate(sql);
 			
 			// Step 21: insert fake review 4444/3229c1097c00d497a0fd282d586be050
 			sql = "INSERT INTO orders VALUES('1', '1111', '4444', '1', TRUE, NOW(), NOW())";
@@ -248,13 +254,13 @@ public class MySQLTableCreation {
 			sql = "INSERT INTO orders VALUES('4', '3333', '5555', '4', TRUE, NOW(), NOW())";
 			statement.executeUpdate(sql);
 
-			// Step 25: insert fake review 4444/3229c1097c00d497a0fd282d586be050
-			sql = "INSERT INTO reviews VALUES('1', '1', '1111', '4444', 3, 'good sitter', NOW())";
-			statement.executeUpdate(sql);
+//			// Step 25: insert fake review 4444/3229c1097c00d497a0fd282d586be050
+//			sql = "INSERT INTO reviews VALUES('1', '1', '1111', '4444', 3, 'good sitter', NOW())";
+//			statement.executeUpdate(sql);
 						
-			// Step 26: insert fake owner 4444/3229c1097c00d497a0fd282d586be050
-			sql = "INSERT INTO reviews VALUES('2', '2', '3333', '4444', 4, 'great sitter', NOW())";
-			statement.executeUpdate(sql);
+//			// Step 26: insert fake owner 4444/3229c1097c00d497a0fd282d586be050
+//			sql = "INSERT INTO reviews VALUES('2', '2', '3333', '4444', 4, 'great sitter', NOW())";
+//			statement.executeUpdate(sql);
 			
 			// Step 27: insert fake review 5555/3229c1097c00d497a0fd282d586be050
 			sql = "INSERT INTO reviews VALUES('3', '3', '1111', '5555', 5, 'excellent sitter', NOW())";

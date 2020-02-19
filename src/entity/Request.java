@@ -10,6 +10,7 @@ public class Request {
     private String time;
     private String startDay;
     private String endDay;
+    private String ID;
 
     private Request(RequestBuilder builder) {
         // TODO Auto-generated constructor stub
@@ -17,6 +18,7 @@ public class Request {
         this.time = builder.time;
         this.startDay = builder.startDay;
         this.endDay = builder.endDay;
+        this.ID = builder.ID;
     }
 
    
@@ -27,6 +29,7 @@ public class Request {
     public JSONObject toJSONObject() {
         JSONObject obj = new JSONObject();
         try {
+            obj.put("request_id",ID);
             obj.put("message", message);
             obj.put("time",time);
             obj.put("start_day",startDay);
@@ -42,6 +45,7 @@ public class Request {
         private String time;
         private String startDay;
         private String endDay;
+        private String ID;
 
         public RequestBuilder setMessage(String message) {
             this.message = message;
@@ -60,6 +64,11 @@ public class Request {
 
         public RequestBuilder setEndDay(String t) {
             this.endDay = t;
+            return this;
+        }
+
+        public RequestBuilder setID(String id) {
+            this.ID = id;
             return this;
         }
 

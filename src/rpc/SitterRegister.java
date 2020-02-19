@@ -30,6 +30,7 @@ public class SitterRegister extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+<<<<<<< HEAD
 		DBConnection connection = DBConnectionFactory.getConnection();
 		try {
 			JSONObject input = RpcHelper.readJSONObject(request);
@@ -43,16 +44,40 @@ public class SitterRegister extends HttpServlet {
 			String email = input.getString("email");
 			
 			JSONObject obj = new JSONObject();
-			if (connection.registerUser(sitter_id, password, firstname, lastname, zipCode, city, address, email)) {
-				obj.put("status", "OK");
-			} else {
-				obj.put("status", "User Already Exists");
-			}
+=======
+//		DBConnection connection = DBConnectionFactory.getConnection();
+//		try {
+//			JSONObject input = RpcHelper.readJSONObject(request);
+//			String sitter_id = input.getString("sitter_id");
+//			String password = input.getString("password");
+//			String firstname = input.getString("firstname");
+//			String lastname = input.getString("lastname");
+//			String zipCode = input.getString("zipCode");
+//			String city = input.getString("city");
+//			String address = input.getString("address");
+//			String email = input.getString("email");
+//
+//			JSONObject obj = new JSONObject();
+>>>>>>> cc14192aa7b8913efa32265123a5e21608db42fc
+//			if (connection.registerUser(sitter_id, password, firstname, lastname, zipCode, city, address, email)) {
+//				obj.put("status", "OK");
+//			} else {
+//				obj.put("status", "User Already Exists");
+//			}
+<<<<<<< HEAD
 			RpcHelper.writeJsonObject(response, obj);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			connection.close();	
 		}
+=======
+//			RpcHelper.writeJsonObject(response, obj);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		} finally {
+//			connection.close();
+//		}
+>>>>>>> cc14192aa7b8913efa32265123a5e21608db42fc
 	}
 }

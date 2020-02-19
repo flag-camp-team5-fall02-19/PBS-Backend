@@ -154,12 +154,31 @@ public interface DBConnection {
 	 */
 	public Set<Order> viewOrder(String userId, Boolean isOwner);
 
+	/**
+	 *
+	 * @param startDay
+	 * @param endDay
+	 * @param ID
+	 * @return
+	 */
 	public String setUnavailableTime(Date startDay, Date endDay, String ID);
 
+	/**
+	 *
+	 * @param sitter_id
+	 * @return
+	 */
     public Sitter getSitterInformation(String sitter_id);
 
+	/**
+	 *
+	 * @param sitter_id
+	 * @return
+	 */
 	public JSONArray getUnavailableTime(String sitter_id);
-	
+
+	String confirmRequest(String owner_id, String user_id, String request_id);
+
 	/**
 	 * sitter register
 	 * 
@@ -173,11 +192,28 @@ public interface DBConnection {
 	 * @param email
 	 * @return ifSuccess
 	 */
-	public boolean registerSitter (String sitter_id, String password, String firstname, String lastname, String zipCode, String city, String address, String email);
+
+//	public boolean registerSitter (String sitter_id, String password, String firstname, String lastname, String zipCode, String city, String address, String email);
 	
+
+	public boolean registerSitter (String sitter_id, String password, String firstname, String lastname, String zipCode, String city, String address, String email);
+
+
+	/**
+	 *
+	 * @param orderId
+	 * @param sitterId
+	 * @param ownerId
+	 * @param score
+	 * @param comment
+	 * @return
+	 */
+
+	public String addReview(String orderId, String sitterId, String ownerId, Integer score, String comment);
+
 	/**
 	 * owner register
-	 * 
+	 *
 	 * @param owner_id
 	 * @param password
 	 * @param firstname
@@ -190,4 +226,6 @@ public interface DBConnection {
 	 * @return ifSuccess.
 	 */
 	public boolean registerOwner (String owner_id, String password, String firstname, String lastname, String email, String phone, String petType, String petDes, String price);
+//
+//	boolean sitterRegister(String sitter_id, String password, String firstname, String lastname);
 }

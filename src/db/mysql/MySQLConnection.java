@@ -1,10 +1,8 @@
 package db.mysql;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
@@ -12,7 +10,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import java.util.Set;
-import java.sql.Date;
 
 import db.DBConnection;
 import entity.Sitter;
@@ -31,7 +28,6 @@ import external.ZipCodeClient;
 import org.json.JSONArray;
 
 import javax.xml.transform.Result;
-
 
 public class MySQLConnection implements DBConnection {
     private Connection conn;
@@ -105,15 +101,15 @@ public class MySQLConnection implements DBConnection {
             return "DB connection failed";
         }
 	    try {
-            String sql = "INSERT IGNORE INTO requests(request_id,owner_id,sitter_id,status,message,start_day,end_day) VALUES (?,?,?,?,?,?,?)";
+            String sql = "INSERT IGNORE INTO requests(request_id,owner_id,sitter_id,status,message,start_day,end_day,time) VALUES (?,?,?,?,?,?,?,CURRENT_TIMESTAMP)";
             PreparedStatement ps = conn.prepareStatement(sql);
+            // generate unique request id by concatenating owner id and current time
             long currentTime = Calendar.getInstance().getTimeInMillis();
             String requestID = ownerId + "-"+ Long.valueOf(currentTime);
-            System.out.println(requestID);
             ps.setString(1, requestID);
             ps.setString(2, ownerId);
             ps.setString(3, sitterId);
-            ps.setString(4, "false");
+            ps.setString(4, "true");
             ps.setString(5, message);
             ps.setString(6, startDay.toString());
             ps.setString(7, endDay.toString());
@@ -281,6 +277,7 @@ public class MySQLConnection implements DBConnection {
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 RequestBuilder builder = new RequestBuilder();
+                String request_id = rs.getString("request_id");
                 String message = rs.getString("message");
                 String startDay = rs.getString("start_day");
                 String endDay = rs.getString("end_day");
@@ -289,6 +286,7 @@ public class MySQLConnection implements DBConnection {
                 builder.setStartDay(startDay);
                 builder.setEndDay(endDay);
                 builder.setTime(time);
+                builder.setID(request_id);
                 requests.add(builder.build());
             }
         } catch (SQLException e) {
@@ -752,13 +750,159 @@ public class MySQLConnection implements DBConnection {
 		return false;
 	}
     
+    @Override
+    public String confirmRequest(String owner_id, String sitter_id, String request_id) {
+        try {
+            String sql = "SELECT * FROM requests WHERE request_id = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, request_id);
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()){
+                String owner_id_database = rs.getString("owner_id");
+                String sitter_id_database = rs.getString("sitter_id");
+                Boolean request_status_database = rs.getBoolean("sitter_id");
+                String start_day_database = rs.getString("start_day");
+                String end_day_database = rs.getString("end_day");
+
+                if (!owner_id_database.equals(owner_id)){
+                    return "ERROR: owner_id is not consistent with request id.";
+                }
+                if (!sitter_id_database.equals(sitter_id)){
+                    return "ERROR: sitter_id is not consistent with request id.";
+                }
+                if (request_status_database==false){
+                    return "ERROR: request status is False. The request could not be confirmed";
+                }
+
+                //Make a new order.
+                long currentTime = Calendar.getInstance().getTimeInMillis();
+                String orderID = request_id + "-"+ Long.valueOf(currentTime);
+
+                String insert_sql = "INSERT INTO orders VALUES(?, ?, ?, ?, TRUE , ?, ?)";
+                PreparedStatement insertStatement = conn.prepareStatement(insert_sql);
+                insertStatement.setString(1,orderID);
+                insertStatement.setString(2,owner_id);
+                insertStatement.setString(3,sitter_id);
+                insertStatement.setString(4,request_id);
+                insertStatement.setString(5,start_day_database);
+                insertStatement.setString(6,end_day_database);
+                insertStatement.execute();
+
+                //Turn the request status into false.
+                String update_sql = "UPDATE requests SET status = FALSE WHERE request_id=?";
+                PreparedStatement updateStatement = conn.prepareStatement(update_sql);
+                updateStatement.setString(1,request_id);
+                updateStatement.executeUpdate();
+
+                //to detect if the owner has other conflict request with this request
+                String sql1 = "SELECT * FROM requests WHERE ( owner_id = ? OR sitter_id = ? ) AND status = TRUE";
+                PreparedStatement stmt1 = conn.prepareStatement(sql1);
+                stmt1.setString(1, owner_id);
+                stmt1.setString(2, sitter_id);
+                ResultSet rs1 = stmt1.executeQuery();
+                while (rs1.next()){
+                    String id_another = rs1.getString("request_id");
+                    String start = rs1.getString("start_day");
+                    String end = rs1.getString("end_day");
+                    SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+                    java.util.Date start_another_request = sdf.parse(start);
+                    java.util.Date end_another_request = sdf.parse(end);
+                    java.util.Date start_confirm = sdf.parse(start_day_database);
+                    java.util.Date end_confirm = sdf.parse(end_day_database);
+                    //The case if the time is conflict.
+                    if ( ! (end_another_request.before(start_confirm) ||start_another_request.after(end_confirm) ) ) {
+                        String update_sql2 = "UPDATE requests SET status = FALSE WHERE request_id=?";
+                        PreparedStatement updateStatement2 = conn.prepareStatement(update_sql2);
+                        updateStatement2.setString(1,id_another);
+                        updateStatement2.executeUpdate();
+                    }
+                }
+                return "Request confirmed successfully!";
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+
+    @Override
+    public String addReview(String orderId, String sitterId, String ownerId, Integer score, String comment) {
+        if (conn == null) {
+            System.err.println("DB connection failed");
+            return "DB connection failed";
+        }
+        try {
+            String sql = "INSERT IGNORE INTO reviews (review_id,order_id,owner_id,sitter_id,score,comment,comment_time) VALUES (?,?,?,?,?,?,CURRENT_TIMESTAMP)";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            // generate unique review id by concatenating owner id and current time
+            long currentTime = Calendar.getInstance().getTimeInMillis();
+            String reviewID = ownerId + "-"+ Long.valueOf(currentTime);
+            ps.setString(1, reviewID);
+            ps.setString(2, orderId);
+            ps.setString(3, ownerId);
+            ps.setString(4, sitterId);
+            ps.setString(5, Integer.toString(score));
+            ps.setString(6, comment);
+            ps.execute();
+
+            // update the sitter score
+            sql = "SELECT * FROM reviews WHERE sitter_id = ?";
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, sitterId);
+            ResultSet rs = ps.executeQuery();
+            // retrieve the number of reviews corresponding to the sitter
+            int totalReviewNumber = 0;
+            if (rs != null) {
+                rs.beforeFirst();
+                rs.last();
+                totalReviewNumber = rs.getRow();
+            }
+
+            // get the current score of the sitter
+            sql = "SELECT * FROM sitters WHERE sitter_id = ?";
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, sitterId);
+            rs = ps.executeQuery();
+
+            // calculate the new score and update to sitter table
+            double currentScore = 0.0;
+            while (rs.next()) {
+                currentScore = rs.getDouble("review_score");
+            }
+
+            double newScore = (currentScore * (totalReviewNumber - 1) + score) / totalReviewNumber;
+
+            System.out.println("current score " + currentScore);
+            System.out.println("review # " + totalReviewNumber);
+            System.out.println("new score " + newScore);
+
+            sql = "UPDATE sitters SET review_score = ? WHERE sitter_id = ?";
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, Double.toString(newScore));
+            ps.setString(2, sitterId);
+            ps.execute();
+            return "successfully sent the review!";
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+//    @Override
+//    public boolean registerOwner(String owner_id, String password, String firstname, String lastname, String email, String phone, String petType, String petDes, String price) {
+//        return false;
+//    }
+//
 //    @Override
 //    public boolean sitterRegister (String sitter_id, String password, String firstname, String lastname) {
 //    	if (conn == null) {
 //    		System.err.println("DB connection failed");
 //    		return false;
 //    	}
-//    	
+//
 //		try {
 //			String sql = "INSERT IGNORE INTO users VALUES (?, ?, ?, ?)";
 //			PreparedStatement ps = conn.prepareStatement(sql);
@@ -766,21 +910,21 @@ public class MySQLConnection implements DBConnection {
 //			ps.setString(2, password);
 //			ps.setString(3, firstname);
 //			ps.setString(4, lastname);
-//			
+//
 //			return ps.executeUpdate() == 1;
 //		} catch (Exception e) {
 //			e.printStackTrace();
 //		}
 //		return false;	
 //    }
-//    
+
 //    @Override
 //    public boolean ownerRegister (String owner_id, String password, String firstname, String lastname) {
 //    	if (conn == null) {
 //    		System.err.println("DB connection failed");
 //    		return false;
 //    	}
-//    	
+//
 //		try {
 //			String sql = "INSERT IGNORE INTO users VALUES (?, ?, ?, ?)";
 //			PreparedStatement ps = conn.prepareStatement(sql);
@@ -788,11 +932,11 @@ public class MySQLConnection implements DBConnection {
 //			ps.setString(2, password);
 //			ps.setString(3, firstname);
 //			ps.setString(4, lastname);
-//			
+//
 //			return ps.executeUpdate() == 1;
 //		} catch (Exception e) {
 //			e.printStackTrace();
 //		}
-//		return false;	
+//		return false;
 //    }
 }
