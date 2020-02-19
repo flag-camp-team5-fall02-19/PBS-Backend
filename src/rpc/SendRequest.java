@@ -25,7 +25,6 @@ public class SendRequest extends HttpServlet {
      */
     public SendRequest() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
     /**
@@ -59,6 +58,5 @@ public class SendRequest extends HttpServlet {
         } finally {
             connection.close();
         }
-
     }
 }

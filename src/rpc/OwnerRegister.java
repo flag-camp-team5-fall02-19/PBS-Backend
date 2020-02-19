@@ -30,30 +30,30 @@ public class OwnerRegister extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		DBConnection connection = DBConnectionFactory.getConnection();
-		try {
-			JSONObject input = RpcHelper.readJSONObject(request);
-			String owner_id = input.getString("owner_id");
-			String password = input.getString("password");
-			String firstname = input.getString("firstname");
-			String lastname = input.getString("lastname");
-			String email = input.getString("email");
-			String phone = input.getString("phone");
-			String petType = input.getString("petType");
-			String petDes = input.getString("petDes");
-			String price = input.getString("price");
-			
-			JSONObject obj = new JSONObject();				// create JSON object
-			if (connection.registerUser(owner_id, password, firstname, lastname, email, phone, petType, petDes, price)) {
-				obj.put("status", "OK");					// success, OK
-			} else {
-				obj.put("status", "User Already Exists");	// already exists
-			}
-			RpcHelper.writeJsonObject(response, obj);		// write to object
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			connection.close();	
-		}
+//		DBConnection connection = DBConnectionFactory.getConnection();
+//		try {
+//			JSONObject input = RpcHelper.readJSONObject(request);
+//			String owner_id = input.getString("owner_id");
+//			String password = input.getString("password");
+//			String firstname = input.getString("firstname");
+//			String lastname = input.getString("lastname");
+//			String email = input.getString("email");
+//			String phone = input.getString("phone");
+//			String petType = input.getString("petType");
+//			String petDes = input.getString("petDes");
+//			String price = input.getString("price");
+//
+//			JSONObject obj = new JSONObject();				// create JSON object
+//			if (connection.registerUser(owner_id, password, firstname, lastname, email, phone, petType, petDes, price)) {
+//				obj.put("status", "OK");					// success, OK
+//			} else {
+//				obj.put("status", "User Already Exists");	// already exists
+//			}
+//			RpcHelper.writeJsonObject(response, obj);		// write to object
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		} finally {
+//			connection.close();
+//		}
 	}
 }		

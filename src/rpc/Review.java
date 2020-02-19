@@ -10,18 +10,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.Date;
 
 /**
  * Servlet implementation class Comment
  */
-@WebServlet("/comment")
-public class Comment extends HttpServlet {
+@WebServlet("/review")
+public class Review extends HttpServlet {
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Comment() {
+    public Review() {
         super();
     }
 
@@ -39,16 +38,16 @@ public class Comment extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String orderId = request.getParameter("order_id");
         String sitterId = request.getParameter("sitter_id");
-        String userId = request.getParameter("owner_id");
-        Double score = 0.0;
+        String ownerId = request.getParameter("owner_id");
+        Integer score = 0;
         if (request.getParameter("score") != null) {
-            score = Double.valueOf(request.getParameter("score"));
+            score = Integer.valueOf(request.getParameter("score"));
         }
         String comment = request.getParameter("comment");
         DBConnection connection = DBConnectionFactory.getConnection();
         JSONObject obj = new JSONObject();
         try {
-            String msg = connection.makeComment(orderId, sitterId, userId, score, comment);
+            String msg = connection.addReview(orderId, sitterId, ownerId, score, comment);
             obj.put("make_comment_status", msg);
             RpcHelper.writeJsonObject(response, obj);
         } catch (Exception e) {
