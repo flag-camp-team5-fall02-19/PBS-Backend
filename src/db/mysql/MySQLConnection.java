@@ -107,14 +107,13 @@ public class MySQLConnection implements DBConnection {
 	    try {
             String sql = "INSERT IGNORE INTO requests(request_id,owner_id,sitter_id,status,message,start_day,end_day,time) VALUES (?,?,?,?,?,?,?,CURRENT_TIMESTAMP)";
             PreparedStatement ps = conn.prepareStatement(sql);
-
             // generate unique request id by concatenating owner id and current time
             long currentTime = Calendar.getInstance().getTimeInMillis();
             String requestID = ownerId + "-"+ Long.valueOf(currentTime);
             ps.setString(1, requestID);
             ps.setString(2, ownerId);
             ps.setString(3, sitterId);
-            ps.setString(4, "false");
+            ps.setString(4, "true");
             ps.setString(5, message);
             ps.setString(6, startDay.toString());
             ps.setString(7, endDay.toString());
@@ -742,6 +741,69 @@ public class MySQLConnection implements DBConnection {
     @Override
     public boolean registerSitter(String sitter_id, String password, String firstname, String lastname, String zipCode, String city, String address, String email) {
         return false;
+    }
+
+    @Override
+    public String addReview(String orderId, String sitterId, String ownerId, Integer score, String comment) {
+        if (conn == null) {
+            System.err.println("DB connection failed");
+            return "DB connection failed";
+        }
+        try {
+            String sql = "INSERT IGNORE INTO reviews (review_id,order_id,owner_id,sitter_id,score,comment,comment_time) VALUES (?,?,?,?,?,?,CURRENT_TIMESTAMP)";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            // generate unique review id by concatenating owner id and current time
+            long currentTime = Calendar.getInstance().getTimeInMillis();
+            String reviewID = ownerId + "-"+ Long.valueOf(currentTime);
+            ps.setString(1, reviewID);
+            ps.setString(2, orderId);
+            ps.setString(3, ownerId);
+            ps.setString(4, sitterId);
+            ps.setString(5, Integer.toString(score));
+            ps.setString(6, comment);
+            ps.execute();
+
+            // update the sitter score
+            sql = "SELECT * FROM reviews WHERE sitter_id = ?";
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, sitterId);
+            ResultSet rs = ps.executeQuery();
+            // retrieve the number of reviews corresponding to the sitter
+            int totalReviewNumber = 0;
+            if (rs != null) {
+                rs.beforeFirst();
+                rs.last();
+                totalReviewNumber = rs.getRow();
+            }
+
+            // get the current score of the sitter
+            sql = "SELECT * FROM sitters WHERE sitter_id = ?";
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, sitterId);
+            rs = ps.executeQuery();
+
+            // calculate the new score and update to sitter table
+            double currentScore = 0.0;
+            while (rs.next()) {
+                currentScore = rs.getDouble("review_score");
+            }
+
+            double newScore = (currentScore * (totalReviewNumber - 1) + score) / totalReviewNumber;
+
+            System.out.println("current score " + currentScore);
+            System.out.println("review # " + totalReviewNumber);
+            System.out.println("new score " + newScore);
+
+            sql = "UPDATE sitters SET review_score = ? WHERE sitter_id = ?";
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, Double.toString(newScore));
+            ps.setString(2, sitterId);
+            ps.execute();
+            return "successfully sent the review!";
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
 //    @Override
