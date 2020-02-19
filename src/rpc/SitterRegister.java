@@ -43,11 +43,11 @@ public class SitterRegister extends HttpServlet {
 			String email = input.getString("email");
 			
 			JSONObject obj = new JSONObject();
-			if (connection.registerUser(sitter_id, password, firstname, lastname, zipCode, city, address, email)) {
-				obj.put("status", "OK");
-			} else {
-				obj.put("status", "User Already Exists");
-			}
+//			if (connection.registerUser(sitter_id, password, firstname, lastname, zipCode, city, address, email)) {
+//				obj.put("status", "OK");
+//			} else {
+//				obj.put("status", "User Already Exists");
+//			}
 			RpcHelper.writeJsonObject(response, obj);
 		} catch (Exception e) {
 			e.printStackTrace();

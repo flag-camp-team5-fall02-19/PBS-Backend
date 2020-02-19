@@ -159,7 +159,9 @@ public interface DBConnection {
     public Sitter getSitterInformation(String sitter_id);
 
 	public JSONArray getUnavailableTime(String sitter_id);
-	
+
+	String confirmRequest(String owner_id, String user_id, String request_id);
+
 	/**
 	 * sitter register
 	 * 
@@ -173,7 +175,7 @@ public interface DBConnection {
 	 * @param email
 	 * @return ifSuccess
 	 */
-	public boolean registerSitter (String sitter_id, String password, String firstname, String lastname, String zipCode, String city, String address, String email);
+//	public boolean registerSitter (String sitter_id, String password, String firstname, String lastname, String zipCode, String city, String address, String email);
 	
 	/**
 	 * owner register
@@ -189,5 +191,5 @@ public interface DBConnection {
 	 * @param priceRange
 	 * @return ifSuccess.
 	 */
-	public boolean registerOwner (String owner_id, String password, String firstname, String lastname, String email, String phone, String petType, String petDes, String price);
+//	public boolean registerOwner (String owner_id, String password, String firstname, String lastname, String email, String phone, String petType, String petDes, String price);
 }

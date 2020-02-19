@@ -44,11 +44,11 @@ public class OwnerRegister extends HttpServlet {
 			String price = input.getString("price");
 			
 			JSONObject obj = new JSONObject();				// create JSON object
-			if (connection.registerUser(owner_id, password, firstname, lastname, email, phone, petType, petDes, price)) {
-				obj.put("status", "OK");					// success, OK
-			} else {
-				obj.put("status", "User Already Exists");	// already exists
-			}
+//			if (connection.registerUser(owner_id, password, firstname, lastname, email, phone, petType, petDes, price)) {
+//				obj.put("status", "OK");					// success, OK
+//			} else {
+//				obj.put("status", "User Already Exists");	// already exists
+//			}
 			RpcHelper.writeJsonObject(response, obj);		// write to object
 		} catch (Exception e) {
 			e.printStackTrace();
