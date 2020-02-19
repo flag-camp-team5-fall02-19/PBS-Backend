@@ -20,7 +20,8 @@ import entity.Owner;
 
 
 /**
- * Servlet implementation class ViewOwner
+ * It’s called by a sitter when he wants to see all owners who sent requests to him and the requests information.
+ * Only request with status True (acceptable) will be shown.
  */
 @WebServlet("/viewowner")
 public class ViewOwner extends HttpServlet {

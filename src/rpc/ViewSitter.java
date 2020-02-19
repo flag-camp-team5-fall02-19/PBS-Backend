@@ -21,7 +21,7 @@ import entity.Sitter;
 
 
 /**
- * Servlet implementation class ViewOwner
+ * Return a detailed information a sitter including posts(photos) and unavailable time.
  */
 @WebServlet("/viewsitter")
 public class ViewSitter extends HttpServlet {

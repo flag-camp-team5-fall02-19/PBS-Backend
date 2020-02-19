@@ -32,6 +32,14 @@ import javax.xml.transform.Result;
 public class MySQLConnection implements DBConnection {
     private Connection conn;
 
+    /**
+     * It's used by SetUnavailable Time.
+     * It is called when an sitter wants to set a period of time to be unavailable.
+     * @param startDay the startDay of the chosen unavailable period (included).
+     * @param endDay the endDay of the chosen unavailable period (included).
+     * @param ID the id of the sitter.
+     * @return
+     */
     public String setUnavailableTime(Date startDay, Date endDay, String ID) {
 		if (conn == null) {
 			System.err.println("DB connection failed");
@@ -239,6 +247,11 @@ public class MySQLConnection implements DBConnection {
         return reviews;
     }
 
+    /**
+     * Used by viewOwner servlet to get the posts of an owner.
+     * @param ownerId The owner Id.
+     * @return
+     */
     @Override
     public Set<Post> GetImagesByOwnerId(String ownerId) {
         if (conn == null) {
@@ -264,14 +277,19 @@ public class MySQLConnection implements DBConnection {
         return images;
     }
 
+    /**
+     * Used by viewOwner servlet to get the requests sent by a owner to the certain sitter.
+     * @param ownerId The owner id.
+     * @return
+     */
     @Override
-    public Set<Request> GetRequestsByOwnerId(String ownerId) {
+    public Set<Request> GetRequestsByOwnerId(String ownerId, String sitterId) {
         if (conn == null) {
             return null;
         }
         Set<Request> requests = new HashSet<>();
         try {
-            String sql = "SELECT * FROM requests WHERE owner_id = ?";
+            String sql = "SELECT * FROM requests WHERE owner_id = ? AND  sitter_id = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, ownerId);
             ResultSet rs = stmt.executeQuery();
@@ -477,6 +495,12 @@ public class MySQLConnection implements DBConnection {
     }
 
 
+    /**
+     * It's used to by ViewOwner servlet for sitters to see owners who sent requests to him.
+     * Only request with status True (acceptable) will be shown.
+     * @param userId The user who wants to view requests he received.
+     * @return
+     */
     @Override
     public Set<Owner> viewOwners(String userId) {
 
@@ -524,7 +548,7 @@ public class MySQLConnection implements DBConnection {
                     builder.setPetType(rs.getString("pet_type"));
                     builder.setPetDescription(rs.getString("pet_description"));
                     builder.setImageUrl(GetImagesByOwnerId(ownerId));
-                    builder.setRequests(GetRequestsByOwnerId(ownerId));
+                    builder.setRequests(GetRequestsByOwnerId(ownerId,userId));
                     owners.add(builder.build());
                 }
             }
@@ -682,6 +706,11 @@ public class MySQLConnection implements DBConnection {
         return orders;
     }
 
+    /**
+     * Used by ViewSitter servlet to get sitter detailed information.
+     * @param sitter_id the sitter id.
+     * @return
+     */
     public Sitter getSitterInformation(String sitter_id){
         if (conn == null) {
             return null;
@@ -704,6 +733,11 @@ public class MySQLConnection implements DBConnection {
         return null;
     }
 
+    /**
+     * Used by ViewSitter servlet to get the unavailable time of a sitter.
+     * @param sitter_id The sitter id.
+     * @return
+     */
     public JSONArray getUnavailableTime(String sitter_id){
         if (conn == null) {
             return null;
@@ -749,7 +783,14 @@ public class MySQLConnection implements DBConnection {
 		// TODO Auto-generated method stub
 		return false;
 	}
-    
+
+    /**
+     * It's used by ConfirmRequest servlet. It is called when a sitter accepts the request from the owner.
+     * @param owner_id The owner who sent the request.
+     * @param sitter_id The sitter who received the request.
+     * @param request_id The request id.
+     * @return
+     */
     @Override
     public String confirmRequest(String owner_id, String sitter_id, String request_id) {
         try {

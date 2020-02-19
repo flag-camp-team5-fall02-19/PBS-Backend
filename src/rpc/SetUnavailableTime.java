@@ -20,6 +20,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * It is called when an sitter wants to set a period of time to be unavailable.
+ */
 @WebServlet("/setUnavailableTime")
 public class SetUnavailableTime extends HttpServlet {
     private static final long serialVersionUID = 1L;

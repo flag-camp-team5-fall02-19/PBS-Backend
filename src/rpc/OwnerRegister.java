@@ -30,7 +30,6 @@ public class OwnerRegister extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-<<<<<<< HEAD
 		DBConnection connection = DBConnectionFactory.getConnection();
 		try {
 			JSONObject input = RpcHelper.readJSONObject(request);
@@ -45,7 +44,6 @@ public class OwnerRegister extends HttpServlet {
 			String price = input.getString("price");
 			
 			JSONObject obj = new JSONObject();				// create JSON object
-=======
 //		DBConnection connection = DBConnectionFactory.getConnection();
 //		try {
 //			JSONObject input = RpcHelper.readJSONObject(request);
@@ -60,26 +58,22 @@ public class OwnerRegister extends HttpServlet {
 //			String price = input.getString("price");
 //
 //			JSONObject obj = new JSONObject();				// create JSON object
->>>>>>> cc14192aa7b8913efa32265123a5e21608db42fc
 //			if (connection.registerUser(owner_id, password, firstname, lastname, email, phone, petType, petDes, price)) {
 //				obj.put("status", "OK");					// success, OK
 //			} else {
 //				obj.put("status", "User Already Exists");	// already exists
 //			}
-<<<<<<< HEAD
 			RpcHelper.writeJsonObject(response, obj);		// write to object
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			connection.close();	
 		}
-=======
 //			RpcHelper.writeJsonObject(response, obj);		// write to object
 //		} catch (Exception e) {
 //			e.printStackTrace();
 //		} finally {
 //			connection.close();
 //		}
->>>>>>> cc14192aa7b8913efa32265123a5e21608db42fc
 	}
 }		

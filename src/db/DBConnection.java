@@ -143,7 +143,7 @@ public interface DBConnection {
 	 * @param ownerId
 	 * @return requests
 	 */
-	public Set<Request> GetRequestsByOwnerId(String ownerId);
+	public Set<Request> GetRequestsByOwnerId(String ownerId, String userId);
 	
 	/**
 	 * Get the related orders for a user (sitter or owner).
