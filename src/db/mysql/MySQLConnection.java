@@ -937,47 +937,57 @@ public class MySQLConnection implements DBConnection {
 //        return false;
 //    }
 //
-//    @Override
-//    public boolean sitterRegister (String sitter_id, String password, String firstname, String lastname) {
-//    	if (conn == null) {
-//    		System.err.println("DB connection failed");
-//    		return false;
-//    	}
-//
-//		try {
-//			String sql = "INSERT IGNORE INTO users VALUES (?, ?, ?, ?)";
-//			PreparedStatement ps = conn.prepareStatement(sql);
-//			ps.setString(1, sitter_id);
-//			ps.setString(2, password);
-//			ps.setString(3, firstname);
-//			ps.setString(4, lastname);
-//
-//			return ps.executeUpdate() == 1;
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		return false;	
-//    }
+    @Override
+    public boolean registerSitter (String sitter_id, String password, String firstname, String lastname, String zipCode, String city, String address, String email) {
+    	if (conn == null) {
+    		System.err.println("DB connection failed");
+    		return false;
+    	}
 
-//    @Override
-//    public boolean ownerRegister (String owner_id, String password, String firstname, String lastname) {
-//    	if (conn == null) {
-//    		System.err.println("DB connection failed");
-//    		return false;
-//    	}
-//
-//		try {
-//			String sql = "INSERT IGNORE INTO users VALUES (?, ?, ?, ?)";
-//			PreparedStatement ps = conn.prepareStatement(sql);
-//			ps.setString(1, owner_id);
-//			ps.setString(2, password);
-//			ps.setString(3, firstname);
-//			ps.setString(4, lastname);
-//
-//			return ps.executeUpdate() == 1;
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		return false;
-//    }
+		try {
+			String sql = "INSERT IGNORE INTO users VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, sitter_id);
+			ps.setString(2, password);
+			ps.setString(3, firstname);
+			ps.setString(4, lastname);
+			ps.setString(5, zipCode);
+			ps.setString(6, city);
+			ps.setString(7, address);
+			ps.setString(8, email);
+
+			return ps.executeUpdate() == 1;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;	
+    }
+
+    @Override
+    public boolean registerOwner (String owner_id, String password, String firstname, String lastname, String email, String phone, String petType, String petDes, String price) {
+    	if (conn == null) {
+    		System.err.println("DB connection failed");
+    		return false;
+    	}
+
+		try {
+			String sql = "INSERT IGNORE INTO users VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, owner_id);
+			ps.setString(2, password);
+			ps.setString(3, firstname);
+			ps.setString(4, lastname);
+			ps.setString(5, email);
+			ps.setString(6, phone);
+			ps.setString(7, petType);
+			ps.setString(8, petDes);
+			ps.setString(9, price);
+			
+
+			return ps.executeUpdate() == 1;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+    }
 }
