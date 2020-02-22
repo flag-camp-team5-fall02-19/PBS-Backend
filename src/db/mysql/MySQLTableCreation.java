@@ -177,10 +177,10 @@ public class MySQLTableCreation {
 			sql = "INSERT INTO sitter_posts VALUES('2', '3333', 'https://ih0.redbubble.net/image.255642640.5608/sn,x1313-bg,f8f8f8.u4.jpg', 'testcaption2')";
 			statement.executeUpdate(sql);
 			// Step 11: insert fake sitter post
-			sql = "INSERT INTO sitter_posts VALUES('3', '4444', 'https://lh3.googleusercontent.com/proxy/lopFrWx4V4r7Ef4dUfvcVXAy2QXEooxS85x8fRaf2Gdn1U1a52XRseDNFmkgTG2JpKL7-1Z67huaaD_LqUnyoq4b-EFDJanP-XbOhm3d_dVk98mLjZJ5stqv-D3g2sY', 'testcaption3')";
+			sql = "INSERT INTO sitter_posts VALUES('3', '4444', 'https://n.7k7kimg.cn/2018/0125/1516876420107.jpg', 'testcaption3')";
 			statement.executeUpdate(sql);
 			// Step 12: insert fake sitter post 2
-			sql = "INSERT INTO sitter_posts VALUES('4', '4444', 'https://lh3.googleusercontent.com/proxy/lopFrWx4V4r7Ef4dUfvcVXAy2QXEooxS85x8fRaf2Gdn1U1a52XRseDNFmkgTG2JpKL7-1Z67huaaD_LqUnyoq4b-EFDJanP-XbOhm3d_dVk98mLjZJ5stqv-D3g2sY', 'testcaption4')";
+			sql = "INSERT INTO sitter_posts VALUES('4', '4444', 'https://n.7k7kimg.cn/2018/0125/1516876420107.jpg', 'testcaption4')";
 			statement.executeUpdate(sql);
 			// Step 11: insert fake sitter post
 			sql = "INSERT INTO sitter_posts VALUES('5', '5555', 'https://n.7k7kimg.cn/2018/0125/1516875581407.jpg', 'testcaption5')";

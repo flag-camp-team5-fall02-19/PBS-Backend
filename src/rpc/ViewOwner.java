@@ -41,9 +41,10 @@ public class ViewOwner extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		DBConnection connection = DBConnectionFactory.getConnection();
 		try {
-			HttpSession session = request.getSession(false);
+			HttpSession session = request.getSession();
 			JSONObject obj_err = new JSONObject();
 			JSONArray array = new JSONArray();
+			
 			if (session != null) {
 				String userId = session.getAttribute("user_id").toString();
 				Set<Owner> owners = connection.viewOwners(userId);

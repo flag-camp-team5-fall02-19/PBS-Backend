@@ -6,6 +6,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Order {
+	private String order_id;
     private String owner_firstName;
     private String owner_lastName;
     private String sitter_firstName;
@@ -14,11 +15,16 @@ public class Order {
 
     private Order(OrderBuilder builder) {
         // TODO Auto-generated constructor stub
+    	this.order_id = builder.order_id;
         this.owner_firstName = builder.owner_firstName;
         this.owner_lastName = builder.owner_lastName;
         this.sitter_firstName = builder.sitter_firstName;
         this.sitter_lastName = builder.sitter_lastName;
         this.status = builder.status;
+    }
+    
+    public String getOrderId() {
+    	return order_id;
     }
 
     public String getOwnerFirstName() {
@@ -41,6 +47,7 @@ public class Order {
     public JSONObject toJSONObject() {
         JSONObject obj = new JSONObject();
         try {
+        	obj.put("order_id", order_id);
             obj.put("owner_firstName", owner_firstName);
             obj.put("owner_lastName", owner_lastName);
             obj.put("sitter_firstName", sitter_firstName);
@@ -53,11 +60,17 @@ public class Order {
     }
 
     public static class OrderBuilder {
+    	private String order_id;
         private String owner_firstName;
         private String owner_lastName;
         private String sitter_firstName;
         private String sitter_lastName;
         private Boolean status;
+        
+        public OrderBuilder setOrderId(String order_id) {
+        	this.order_id = order_id;
+        	return this;
+        }
 
         public OrderBuilder setOwnerFirstName(String owner_firstName) {
             this.owner_firstName = owner_firstName;

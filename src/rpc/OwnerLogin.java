@@ -73,7 +73,7 @@ public class OwnerLogin extends HttpServlet {
 				obj.put("status", "OK").put("user_id", userId).put("name", connection.getOwnerFullname(userId));
 				System.out.println("the successful sessionId is: " + session.getId());
 				JSONObject token = new JSONObject();
-				token.put("token", session.getId());
+				token.put("token", session.getId()).put("user_id", userId);
 				RpcHelper.writeJsonObject(response, token);
 			} else {
 				obj.put("status", "User Doesn't Exist");

@@ -624,6 +624,7 @@ public class MySQLConnection implements DBConnection {
                 stmt.setString(1, userId);
                 rs = stmt.executeQuery();
                 while (rs.next()) {
+                	builder.setOrderId(rs.getString("order_id"));
                     builder.setOwnerFirstName(ownerFirstName);
                     builder.setOwnerLastName(ownerLastName);
                     builder.setSitterFirstName(sitterNames.poll());
@@ -770,19 +771,6 @@ public class MySQLConnection implements DBConnection {
         return res;
     }
 
-	@Override
-	public boolean registerSitter(String sitter_id, String password, String firstname, String lastname, String zipCode,
-			String city, String address, String email) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean registerOwner(String owner_id, String password, String firstname, String lastname, String email,
-			String phone, String petType, String petDes, String price) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
     /**
      * It's used by ConfirmRequest servlet. It is called when a sitter accepts the request from the owner.
