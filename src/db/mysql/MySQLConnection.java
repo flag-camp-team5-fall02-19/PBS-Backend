@@ -289,9 +289,10 @@ public class MySQLConnection implements DBConnection {
         }
         Set<Request> requests = new HashSet<>();
         try {
-            String sql = "SELECT * FROM requests WHERE owner_id = ? AND  sitter_id = ?";
+            String sql = "SELECT * FROM requests WHERE owner_id = ? AND sitter_id = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, ownerId);
+            stmt.setString(2, sitterId);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 RequestBuilder builder = new RequestBuilder();
@@ -306,6 +307,7 @@ public class MySQLConnection implements DBConnection {
                 builder.setTime(time);
                 builder.setID(request_id);
                 requests.add(builder.build());
+                System.out.println(message);
             }
         } catch (SQLException e) {
             e.printStackTrace();

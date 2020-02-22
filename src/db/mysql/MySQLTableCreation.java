@@ -153,22 +153,25 @@ public class MySQLTableCreation {
 			sql = "INSERT INTO owners VALUES('1111', '3229c1097c00d497a0fd282d586be050', 'John', 'Smith', '1234567890', 'sun@laioffer.com', '10001', 'New York', 'Fifth Avenue', 'orange cat', 'The most lovely cat in the world')";
 			statement.executeUpdate(sql);
 			// Step 5: insert fake owner 3333/3229c1097c00d497a0fd282d586be050
-			sql = "INSERT INTO owners VALUES('3333', '3229c1097c00d497a0fd282d586be050', 'Jack', 'Chen', '1234567890', 'jack@gmail.com', '10001', 'New York', 'Fifth Avenue', 'orange cat', 'The most lovely cat in the world')";
+			sql = "INSERT INTO owners VALUES('3333', 'bbe837e0b74c5c52b86eeb6b80ffb48e', 'Jack', 'Chen', '1234567890', 'jack@gmail.com', '10001', 'New York', 'Fifth Avenue', 'orange cat', 'The most lovely cat in the world')";
 			statement.executeUpdate(sql);
 			// Step 6: insert fake sitter 3333/3229c1097c00d497a0fd282d586be050
-			sql = "INSERT INTO sitters VALUES('3333', '3229c1097c00d497a0fd282d586be050', 'Jack', 'Chen', '1234567890', 'jack@gmail.com', '10001', 'New York', 'Fifth Avenue', '99.9', '4.9')";
+			sql = "INSERT INTO sitters VALUES('3333', 'bbe837e0b74c5c52b86eeb6b80ffb48e', 'Jack', 'Chen', '1234567890', 'jack@gmail.com', '10001', 'New York', 'Fifth Avenue', '99.9', '4.9')";
 			statement.executeUpdate(sql);
 			// Step 7: insert fake sitter 4444/3229c1097c00d497a0fd282d586be050
-			sql = "INSERT INTO sitters VALUES('4444', '3229c1097c00d497a0fd282d586be050', 'Alice', 'Jen', '1111111111', 'alice@gmail.com', '15229', 'New West', 'Fifth Avenue', '99.9', '4.9')";
+			sql = "INSERT INTO sitters VALUES('4444', '9bb94eed67254658901d9a994ec5bb27', 'Alan', 'Zhao', '1111111111', 'alice@gmail.com', '15229', 'New West', 'Fifth Avenue', '99.9', '4.9')";
 			statement.executeUpdate(sql);
 			// Step 8: insert fake sitter 5555/3229c1097c00d497a0fd282d586be050
-			sql = "INSERT INTO sitters VALUES('5555', '3229c1097c00d497a0fd282d586be050', 'Jensen', 'Wang', '2222222222', 'Jensen@gmail.com', '15139', 'New East', 'Fifth Avenue', '99.9', '4.9')";
+			sql = "INSERT INTO sitters VALUES('5555', 'ce6b32957a6a905e8ad2285d008e1e71', 'Jensen', 'Wang', '2222222222', 'Jensen@gmail.com', '15139', 'New East', 'Fifth Avenue', '99.9', '4.9')";
 			statement.executeUpdate(sql);
 			// Step 9: insert fake sitter 6666/3229c1097c00d497a0fd282d586be050
-			sql = "INSERT INTO sitters VALUES('6666', '3229c1097c00d497a0fd282d586be050', 'Neal', 'Zeng', '3333333333', 'Neal@gmail.com', '15049', 'New South', 'Fifth Avenue', '99.9', '4.9')";
+			sql = "INSERT INTO sitters VALUES('6666', '34c029c4b6bdcba6701aa8fb8eca0c6b', 'Neal', 'Zeng', '3333333333', 'Neal@gmail.com', '15049', 'New South', 'Fifth Avenue', '99.9', '4.9')";
 			statement.executeUpdate(sql);
 			// Step 10: insert fake sitter 7777/3229c1097c00d497a0fd282d586be050
-			sql = "INSERT INTO sitters VALUES('7777', '3229c1097c00d497a0fd282d586be050', 'Jill', 'Valentine', '4444444444', 'Jill@gmail.com', '15127', 'New North', 'Fifth Avenue', '99.9', '4.9')";
+			sql = "INSERT INTO sitters VALUES('7777', 'ab79681ff3aa44d3669401c7105f0dbf', 'Jill', 'Valentine', '4444444444', 'Jill@gmail.com', '15127', 'New North', 'Fifth Avenue', '99.9', '4.9')";
+			statement.executeUpdate(sql);
+			// Step 10: insert fake sitter neal/911a5c71967381fa8797b06c7954d132
+			sql = "INSERT INTO sitters VALUES('neal', '911a5c71967381fa8797b06c7954d132', 'Yanhao', 'Zeng', '5555555555', 'yzeng@gmail.com', '02747', 'North Dartmouth', 'Fifth Avenue', '69.9', '3.5')";
 			statement.executeUpdate(sql);
 			// Step 11: insert fake sitter post
 			sql = "INSERT INTO sitter_posts VALUES('1', '3333', 'https://ih0.redbubble.net/image.255642640.5608/sn,x1313-bg,f8f8f8.u4.jpg', 'testcaption')";
@@ -200,7 +203,10 @@ public class MySQLTableCreation {
 			// Step 12: insert fake sitter post 2
 			sql = "INSERT INTO sitter_posts VALUES('10', '7777', 'https://n.7k7kimg.cn/2018/0125/1516876334948.jpg', 'testcaption10')";
 			statement.executeUpdate(sql);
-			
+			// Step 12: insert fake sitter post 2
+			sql = "INSERT INTO sitter_posts VALUES('11', 'neal', 'https://res.cloudinary.com/teepublic/image/private/s--l7Tb8sIN--/t_Preview/b_rgb:768e9a,c_limit,f_jpg,h_630,q_90,w_630/v1458065409/production/designs/448718_1.jpg', 'testcaption11')";
+			statement.executeUpdate(sql);
+						
 			
 			// Step 13: insert fake owner post
 			sql = "INSERT INTO owner_posts VALUES('1', '1111', 'fakeurl', 'testcaption')";
