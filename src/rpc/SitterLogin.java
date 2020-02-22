@@ -69,10 +69,10 @@ public class SitterLogin extends HttpServlet {
 				HttpSession session = request.getSession();
 				session.setAttribute("user_id", userId);
 				session.setMaxInactiveInterval(600);
-				obj.put("status", "OK").put("user_id", userId).put("name", connection.getSitterFullname(userId));
+				obj.put("status", "OK").put("user_id", userId).put("name", connection.getOwnerFullname(userId));
 				System.out.println("the successful sessionId is: " + session.getId());
 				JSONObject token = new JSONObject();
-				token.put("token", session.getId());
+				token.put("token", session.getId()).put("user_id", userId);
 				RpcHelper.writeJsonObject(response, token);
 ;
 			} else {

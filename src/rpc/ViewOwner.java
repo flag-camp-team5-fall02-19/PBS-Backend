@@ -44,9 +44,10 @@ public class ViewOwner extends HttpServlet {
 			HttpSession session = request.getSession();
 			JSONObject obj_err = new JSONObject();
 			JSONArray array = new JSONArray();
-			
 			if (session != null) {
-				String userId = session.getAttribute("user_id").toString();
+				//String userId = session.getAttribute("user_id").toString();
+				JSONObject input = RpcHelper.readJSONObject(request);
+				String userId = input.getString("user_id");
 				Set<Owner> owners = connection.viewOwners(userId);
 				
 				for (Owner owner : owners) {

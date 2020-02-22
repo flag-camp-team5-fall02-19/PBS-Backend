@@ -192,11 +192,7 @@ public interface DBConnection {
 	 * @param email
 	 * @return ifSuccess
 	 */
-
-//	public boolean registerSitter (String sitter_id, String password, String firstname, String lastname, String zipCode, String city, String address, String email);
-	
-
-	public boolean registerSitter (String sitter_id, String password, String firstname, String lastname, String zipCode, String city, String address, String email);
+	public boolean registerSitter (String sitter_id, String password, String firstname, String lastname, String phone, String email, String zipcode, String city, String address);
 
 
 	/**
@@ -225,7 +221,6 @@ public interface DBConnection {
 	 * @param priceRange
 	 * @return ifSuccess.
 	 */
-	public boolean registerOwner (String owner_id, String password, String firstname, String lastname, String email, String phone, String petType, String petDes, String price);
-//
-//	boolean sitterRegister(String sitter_id, String password, String firstname, String lastname);
+	public boolean registerOwner (String owner_id, String password, String firstname, String lastname, String phone, String email, String zipcode, String city, String address);
+
 }

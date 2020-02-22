@@ -692,6 +692,7 @@ public class MySQLConnection implements DBConnection {
                 stmt.setString(1, userId);
                 rs = stmt.executeQuery();
                 while (rs.next()) {
+                	builder.setOrderId(rs.getString("order_id"));
                     builder.setOwnerFirstName(ownerNames.poll());
                     builder.setOwnerLastName(ownerNames.poll());
                     builder.setSitterFirstName(sitterFirstName);
@@ -920,29 +921,28 @@ public class MySQLConnection implements DBConnection {
         return "";
     }
 
-//    @Override
-//    public boolean registerOwner(String owner_id, String password, String firstname, String lastname, String email, String phone, String petType, String petDes, String price) {
-//        return false;
-//    }
-//
+
     @Override
-    public boolean registerSitter (String sitter_id, String password, String firstname, String lastname, String zipCode, String city, String address, String email) {
+    public boolean registerSitter (String userID, String password, String firstname, String lastname, String phone, String email, String zipcode, String city, String address) {
     	if (conn == null) {
     		System.err.println("DB connection failed");
     		return false;
     	}
 
 		try {
-			String sql = "INSERT IGNORE INTO users VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+			String sql = "INSERT IGNORE INTO sitters VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			PreparedStatement ps = conn.prepareStatement(sql);
-			ps.setString(1, sitter_id);
+			ps.setString(1, userID);
 			ps.setString(2, password);
 			ps.setString(3, firstname);
 			ps.setString(4, lastname);
-			ps.setString(5, zipCode);
-			ps.setString(6, city);
-			ps.setString(7, address);
-			ps.setString(8, email);
+			ps.setString(5, phone);
+			ps.setString(6, email);
+			ps.setString(7, zipcode);
+			ps.setString(8, city);
+			ps.setString(9, address);
+			ps.setString(10, null);
+			ps.setString(11, null);
 
 			return ps.executeUpdate() == 1;
 		} catch (Exception e) {
@@ -951,25 +951,28 @@ public class MySQLConnection implements DBConnection {
 		return false;	
     }
 
+
     @Override
-    public boolean registerOwner (String owner_id, String password, String firstname, String lastname, String email, String phone, String petType, String petDes, String price) {
+    public boolean registerOwner (String userID, String password, String firstname, String lastname, String phone, String email, String zipcode, String city, String address) {
     	if (conn == null) {
     		System.err.println("DB connection failed");
     		return false;
     	}
 
 		try {
-			String sql = "INSERT IGNORE INTO users VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			String sql = "INSERT IGNORE INTO owners VALUES (?, ?, ?, ?,?, ?, ?, ?,?, ?, ?)";
 			PreparedStatement ps = conn.prepareStatement(sql);
-			ps.setString(1, owner_id);
+			ps.setString(1, userID);
 			ps.setString(2, password);
 			ps.setString(3, firstname);
 			ps.setString(4, lastname);
-			ps.setString(5, email);
-			ps.setString(6, phone);
-			ps.setString(7, petType);
-			ps.setString(8, petDes);
-			ps.setString(9, price);
+			ps.setString(5, phone);
+			ps.setString(6, email);
+			ps.setString(7, zipcode);
+			ps.setString(8, city);
+			ps.setString(9, address);
+			ps.setString(10, null);
+			ps.setString(11, null);
 			
 
 			return ps.executeUpdate() == 1;
@@ -978,4 +981,5 @@ public class MySQLConnection implements DBConnection {
 		}
 		return false;
     }
+
 }

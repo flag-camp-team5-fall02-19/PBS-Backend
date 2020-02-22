@@ -36,13 +36,24 @@ public class viewOwnerOrder extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doPost(request, response);
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
 		DBConnection connection = DBConnectionFactory.getConnection();
 		try {
-			HttpSession session = request.getSession(false);
+			//HttpSession session = request.getSession(false);
+			HttpSession session = request.getSession();
 			JSONObject obj_err = new JSONObject();
 			JSONArray array = new JSONArray();
 			if (session != null) {
-				String userId = session.getAttribute("user_id").toString();
+				//String userId = session.getAttribute("user_id").toString();
+				JSONObject input = RpcHelper.readJSONObject(request);
+				String userId = input.getString("user_id");
 				Set<Order> orders = connection.viewOrder(userId, true);
 				
 				for (Order order : orders) {
@@ -60,14 +71,6 @@ public class viewOwnerOrder extends HttpServlet {
 		} finally {
 			connection.close();
 		}
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
 	}
 
 }
